@@ -65,8 +65,6 @@ function PointOnCircle(cx, cy, r, clockwise = true, phi = 0) {
 }
 
 function createCircles() {
-  // var diasmall = (windowWidth < 360) ? windowHeight/15 : windowWidth/15;
-  // bigCircle = (windowWidth < 360) ? new CircularThing(0, 0, windowHeight / 2, 2 * PI / data.nsmall) : bigCircle = new CircularThing(0, 0, windowWidth / 3, 2 * PI / data.nsmall);
   bigCircle = new CircularThing(0, 0, data.diabig, 2 * PI / data.nsmall);
 
   bigCircle.theta = 2 * PI / data.nsmall;
@@ -77,8 +75,6 @@ function createCircles() {
     smallCircles[i] = new CircularThing(bigCircle.x / 2, bigCircle.y / 2, data.diasmall);
     particles[i] = new PointOnCircle(smallCircles[i].cx, smallCircles[i].cy, data.diasmall / 2, data.clockwise, i);
     if (data.alternatepaths) {
-      //execute this line of code
-      //  Uncomment this for a weirder pen
       if (i % 2 == 0) {
         particles[i].speed *= -1;
       }
@@ -157,12 +153,6 @@ function setup() {
 function draw() {
   background(255);
   translate(windowWidth / 2, windowHeight / 2);
-  // Axes
-  // stroke(0);
-  // strokeWeight(1);
-  // line(0, -windowHeight / 2, 0, windowHeight / 2);
-  // strokeWeight(1);
-  // line(-windowWidth / 2, 0, windowWidth / 2, 0);
   if (data.showbigcircle) {
 
     bigCircle.show();
@@ -182,10 +172,8 @@ function draw() {
       if (i != j && i > j) {
         strokeWeight(1);
         if (data.showline) {
-          //execute this line of code
           line(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
         }
-        // particles[i].phi += 0.01;
 
       }
     }
