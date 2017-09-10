@@ -1,11 +1,21 @@
-html,
-body {
-    padding: 0;
-    margin: 0;
+html, body {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+	background: #000;
 }
 
 canvas {
-    display: block
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+#controlKit .panel {
+	width: 30vw !important;
+	height: 100vh !important;
 }
 
 #controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label  {
