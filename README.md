@@ -9,5 +9,5 @@ Points are rotating on each of those small circles and are connected by lines cr
 An educational thing where user can listen to various waves, play with their parameters, perform addition and multiplication operations on two waves.
 See Inputs and Outputs in TIme Domain as well as Frequency Domain. 
 
-### 2. Starfield
+### 3. Starfield
 A simple 3D Starfield illusion in 2D. Speed of stars coming towards user can be controlled by X location of Mouse.
