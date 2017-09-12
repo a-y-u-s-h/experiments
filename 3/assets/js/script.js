@@ -12,6 +12,7 @@ var data = {
 	stars: []
 };
 
+
 /*
 Class : Star 
 Methods : show, update
@@ -106,3 +107,7 @@ draw = () => {
 		data.stars[i].update();
 	}
 };
+
+var windowResized = () => {
+	resizeCanvas(windowWidth, windowHeight);
+}

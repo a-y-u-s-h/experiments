@@ -353,16 +353,16 @@ var c_3 = s => {
 		s.line(s.width * 0, s.height * 0.5, s.width * 1, s.height * 0.5);
 
 		/* 
-		By default or when 'Add' is selected as Operation, do addition
-		Otherwise do multiplication
-		*/
+        By default or when 'Add' is selected as Operation, do addition
+        Otherwise do multiplication
+        */
 		switch (data["c_3"]["operation"].selection) {
 			case "Multiply":
 				/* 
-				Initializing spectrum_3 with 2048 zeroes, for Bins = 512, 256, 128.
-				Calculating multiplication for 1024 bins becomes super slow, this needs to be fixed sometime later.
-				For now we'll not show frequency response for multiplication of two waves if Samples / Bins = 1024.
-				*/
+                Initializing spectrum_3 with 2048 zeroes, for Bins = 512, 256, 128.
+                Calculating multiplication for 1024 bins becomes super slow, this needs to be fixed sometime later.
+                For now we'll not show frequency response for multiplication of two waves if Samples / Bins = 1024.
+                */
 				if (data.bins.selection < 1024) {
 					for (
 						var i = 0, upperLimit = data.bins.selection * 2;
@@ -374,10 +374,10 @@ var c_3 = s => {
 				}
 
 				/* 
-				Iterating with limits 0 inclusive to 1024 exclusive.
-				Time domain signal calculation is straight forward multiplication.
-				When two waves are multiplied, they create two waves with amplitudes AB/2 and at frequencies (a + b) and (a - b)
-				*/
+                Iterating with limits 0 inclusive to 1024 exclusive.
+                Time domain signal calculation is straight forward multiplication.
+                When two waves are multiplied, they create two waves with amplitudes AB/2 and at frequencies (a + b) and (a - b)
+                */
 
 				for (
 					var i = 0, upperLimit = data.bins.selection;
@@ -414,11 +414,11 @@ var c_3 = s => {
 			case "Add":
 			default:
 				/*
-				In case of addition, I could've used a for loop to add individual amplitudes and then create the wave later.
-				But that's a poor of solving this problem. 
-				Since I already had an FFT object available to me, listening to oscillators of both Canvas 1 and 2. The actual thing that it..
-				listens to is the addition of those two waveforms. So I just need to get time-domain and frequency-domain signals.
-				*/
+                In case of addition, I could've used a for loop to add individual amplitudes and then create the wave later.
+                But that's a poor of solving this problem. 
+                Since I already had an FFT object available to me, listening to oscillators of both Canvas 1 and 2. The actual thing that it..
+                listens to is the addition of those two waveforms. So I just need to get time-domain and frequency-domain signals.
+                */
 				waveform_3 = fft.waveform();
 				spectrum_3 = fft.analyze();
 				break;
@@ -465,6 +465,6 @@ var c_3 = s => {
 createControlKit();
 
 // Passing down c_1, c_2, c_3 to a new p5 instance, to use P5 in instance mode.
-var canvas_1 = new p5(c_1); 
+var canvas_1 = new p5(c_1);
 var canvas_2 = new p5(c_2);
 var canvas_3 = new p5(c_3);
