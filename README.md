@@ -20,5 +20,5 @@ Okay, so if you want to imagine this one with only discription, then start imagi
 There are X and Y axes..and there are two points - one able to move only along X axis and another only along Y, I named them 'anchors'.
 Both of those anchors undergo their separate Simple Harmonic Motions, their individual angular speeds, amplitudes, etc can be controlled on the fly.
 Then on a line joining those two, there's a point which divides the line segment joining those anchors in some ratio, say m1: m2.
-In GUI controls, m1 and m2 would've been confusing for someone who didn't read description, so I named those control labels as Proximities from anchors. Playing with this could result in many pretty cool results. 
+In GUI controls, m1 and m2 would've been confusing for someone who didn't read description, so I named those control labels as *proximities* from anchors. Playing with this could result in many pretty cool results. 
 
