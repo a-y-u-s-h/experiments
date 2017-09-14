@@ -22,3 +22,5 @@ Both of those anchors undergo their separate Simple Harmonic Motions, their indi
 Then on a line joining those two, there's a point which divides the line segment joining those anchors in some ratio, say m1: m2.
 In GUI controls, m1 and m2 would've been confusing for someone who didn't read description, so I named those control labels as *proximities* from anchors. Playing with this could result in many pretty cool results. 
 
+### 6. Fractal Tree #1 (Functional)
+A simple fractal tree made with recursive function logic, with some controls added to it to make it interesting. 
