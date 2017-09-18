@@ -24,3 +24,12 @@ In GUI controls, m1 and m2 would've been confusing for someone who didn't read d
 
 ### 6. Fractal Tree #1 (Functional)
 A simple fractal tree made with recursive function logic, with some controls added to it to make it interesting. 
+
+### 7. 2D Orbital Motion #1
+Implementation of 2D orbital motion of 10 things, moving with different speeds on circles with different radii, with controls.
+
+### 8. Graph Paper
+Graph Paper made in Canvas, with controls to zoom in or rotate. Some use case maybe while simulating something like a CRO machine.
+
+### 9. Rotating Squares creating 3D illusion
+It's exactly the same as the title..with controls. 
