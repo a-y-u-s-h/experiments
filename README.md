@@ -34,8 +34,8 @@ Graph Paper made in Canvas, with controls to zoom in or rotate. Some use case ma
 ### 9. Rotating Squares creating 3D illusion
 It's exactly the same as the title..with controls. 
 
-### 10. 2D Orbital Motion 
-2D Orbital motion. There are around 10 things rotating on ellipses, creating collective periodic motion.
+### 10. Particles: Cloud-ish Effect
+User clicks, holds and drag mouse to expand the particles below the mouse, creating a cool cloudy effect.
 
 ### 11. A 3D Rotating Cube with ThreeJS
 Title says everything..except, it also has one or two control parameters that can be changed with GUI. 
