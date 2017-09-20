@@ -33,3 +33,6 @@ Graph Paper made in Canvas, with controls to zoom in or rotate. Some use case ma
 
 ### 9. Rotating Squares creating 3D illusion
 It's exactly the same as the title..with controls. 
+
+### 10. Fractal Implementation #2 : Squares
+One of many possible fractal tree implementations..this one with square. I can't even provide a unique name to every fractal tree. Maybe there's some naming convention that I'm not aware of, *shrugs* 
