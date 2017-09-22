@@ -63,9 +63,9 @@ class Clock {
     noFill();
     stroke(150, 100, 250);
     strokeWeight(8);
-    arc(0, 0, 240, 240, 0, map(this.hr, 0, 24, 0, 360));
+    arc(0, 0, 240, 240, 0, map(this.hr % 2, 0, 12, 0, 360));
     push();
-    rotate(map(this.hr, 0, 24, 0, 360));
+    rotate(map(this.hr % 2, 0, 12, 0, 360));
     strokeWeight(7);
     line(0, 0, 80, 0);
     pop();
