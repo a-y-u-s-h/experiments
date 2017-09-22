@@ -4,8 +4,8 @@ let loaded = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // song = loadSound("/sounds/experiments/14.mp3", soundloaded);
-  song = loadSound("../media/sounds/14.mp3", soundloaded);
+  // Link provided saves us from 404 error
+  song = loadSound("https://cdn.rawgit.com/a-y-u-s-h/sounds/f6bbe573/experiments/14.mp3", soundloaded);
   fft = new p5.FFT(0, 64);
 }
 
