@@ -41,4 +41,4 @@ User clicks, holds and drag mouse to expand the particles below the mouse, creat
 Title says everything..except, it also has one or two control parameters that can be changed with GUI. 
 
 ### 12. Fractal Implementation #2 : Squares
-One of many possible fractal tree implementations..this one with square. I can't even provide a unique name to every fractal tree. Maybe there's some naming convention that I'm not aware of, *shrugs* 
+One of many possible fractal tree implementations..this one with square. I can't even provide a unique name to every fractal tree. Maybe there's some naming convention that I'm not aware of, *shrugs* ..
