@@ -91,3 +91,7 @@ function draw() {
   clk.update();
   clk.show();
 }
+
+function windowResized () {
+    resizeCanvas(windowWidth, windowHeight);
+}
