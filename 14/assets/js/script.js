@@ -4,7 +4,8 @@ let loaded = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  song = loadSound("/sounds/experiments/14.mp3", soundloaded);
+  // song = loadSound("/sounds/experiments/14.mp3", soundloaded);
+  song = loadSound("https://raw.githubusercontent.com/a-y-u-s-h/sounds/experiments/14.mp3", soundLoaded);
   fft = new p5.FFT(0, 64);
 }
 
