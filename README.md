@@ -42,3 +42,13 @@ Title says everything..except, it also has one or two control parameters that ca
 
 ### 12. Fractal Implementation #2 : Squares
 One of many possible fractal tree implementations..this one with square. I can't even provide a unique name to every fractal tree. Maybe there's some naming convention that I'm not aware of, *shrugs* ..
+
+### 13. Analog Clock Implementation #1
+It's a super simple analog clock implementation, inspired from one of Daniel Shiffman's works. I'll make a robust super nice clock sometime later in future.
+
+### 14. Sound Visualizer Implementation #1
+It's not a robust sound visualizer, it lacks many basic features, like user cannot upload their favorite song and stuff.. But it's still good to make as a brain exercise, plus, it's good for the eyes. By default there's Harry Potter's Hedwig theme playing in the background. The rings near center of the screen represent lower frequency bands.
+Amplitude at various frequency bands determines the color of rings. Brighter the colour means greater the amplitude of sound at that frequency.
+
+### 15. Vector Field
+A field of vectors in which all vectors point in the direction of mouse. It's not a robust sketch in which one can play in whatever way one wants with vector fields; but it has controls : user can change and decorate things a little bit.
