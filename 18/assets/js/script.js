@@ -13,14 +13,15 @@ function draw() {
   translate(width / 2, height / 2);
   scale(1, -1);
   rectMode(CENTER);
-  stroke(0);
+  colorMode(HSL);
   for (var i = 0, upperLimit_i = PI_digits.length; i < upperLimit_i; i += 1) {
-    let digit = map(PI_digits[i], 0, 9, -height / 4, height / 4);
-    fill(map(PI_digits[i], 0, 9, 0, 255));
+    let digit = map(PI_digits[i], 0, 9, 5, height / 4);
+    fill(map(PI_digits[i], 0, 9, 0, 70));
+    noStroke();
     rect(
       i * width / PI_digits.length - width / 2,
       0,
-      width / PI_digits.length,
+      width / (PI_digits.length * 2),
       digit
     );
     push();
