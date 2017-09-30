@@ -28,6 +28,7 @@ p#happy {
     left: 45vw;
     font-family: "Rock Salt";
     text-shadow: 0px 0px 6px rgba(255, 33, 0, 0.3);
+    user-select: none;
 }
 
 p#p-2017 {
@@ -39,6 +40,7 @@ p#p-2017 {
     left: 46vw;
     font-family: "Rock Salt";
     text-shadow: 0px 0px 6px rgba(255, 33, 0, 0.3);
+    user-select: none;
 }
 
 h1#dussehra {
@@ -53,6 +55,7 @@ h1#dussehra {
     top: 36vh;
     left: 27vw;
     animation: lights 10s infinite;
+    user-select: none;
 }
 
 $tsh-small: 15px;
