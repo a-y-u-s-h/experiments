@@ -1,4 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Rock+Salt');
+
+@font-face {
+  font-family: 'Samarkan';
+  src:url('../font/samarkan.TTF');
+}
+
 html,
 body {
   padding: 0;
@@ -14,48 +20,49 @@ canvas {
 
 $non-heading-color: #FF2100;
 p#happy {
-  margin: 0;
-  position: absolute;
-  color: rgba(255, 84, 0, 0.6);
-  font-size: 5vh;
-  top: 27vh;
-  left: 45vw;
-  font-family: "Rock Salt";
-  text-shadow: 0px 0px 6px $non-heading-color;
+    margin: 0;
+    position: absolute;
+    color: rgba(255,84,0,0.6);
+    font-size: 5vh;
+    top: 24vh;
+    left: 45vw;
+    font-family: "Rock Salt";
+    text-shadow: 0px 0px 6px rgba(255, 33, 0, 0.3);
 }
 
 p#p-2017 {
-  margin: 0;
-  position: absolute;
-  color: rgba(255, 84, 0, 0.6);
-  font-size: 5vh;
-  top: 58vh;
-  left: 46vw;
-  font-family: "Rock Salt";
-  text-shadow: 0px 0px 6px $non-heading-color;
+    margin: 0;
+    position: absolute;
+    color: rgba(255,84,0,0.6);
+    font-size: 5vh;
+    top: 60vh;
+    left: 46vw;
+    font-family: "Rock Salt";
+    text-shadow: 0px 0px 6px rgba(255, 33, 0, 0.3);
 }
 
 h1#dussehra {
-  font-family: "Rock Salt";
-  color: rgba(255, 255, 255, 0.4);
-  position: absolute;
-  font-size: 8vw;
-  z-index: 2;
-  text-shadow: 0px 0px 30px tomato;
-  margin: 0;
-  top: 28vh;
-  left: 27vw;
-  animation: lights 10s infinite;
+    font-family: "Samarkan";
+    color: rgba(255,255,255,0.4);
+    position: absolute;
+    font-size: 10vw;
+    z-index: 2;
+    letter-spacing: 0.7vw;
+    text-shadow: 0px 0px 30px tomato;
+    margin: 0;
+    top: 36vh;
+    left: 27vw;
+    animation: lights 10s infinite;
 }
 
 $tsh-small: 15px;
 $tsh-small-color: #DA140D;
 
 $tsh-medium: 15px;
-$tsh-medium-color-1: #932568;
+$tsh-medium-color-1: #D04D0C;
 
 $tsh-large: 15px;
-$tsh-large-color: teal;
+$tsh-large-color: #800018;
 
 @-webkit-keyframes lights {
   0% {
