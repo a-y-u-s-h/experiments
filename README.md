@@ -94,4 +94,7 @@ Particles start from the bottom, reach their max height of trajectory and then e
 Logic is very similar to that of Exp. 15 (Vector Field) except this time it's the eyes that point towards the mouse instead of arrows. It can be used somewhere in future u.u
 (By logic I mean just a little bit of trigonometry)
 
+### 24. 3D Oscillations #1 - Cubes
+Lots of cubes each executing SHM in two dimensions.
+
 
