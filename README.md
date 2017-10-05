@@ -103,3 +103,6 @@ Lots of cubes each executing SHM in two dimensions.
 ### 26. Packing : Circles 
 Random circles are generated with zero radius, they grow until they touch any other circle or borders of the screen. Super simple math. It's just an animation without controls.
 
+### 27. Illusion with Circles #2 
+Rings of circles with oscillating radii creating an illusion of ripples.
+
