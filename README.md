@@ -94,7 +94,12 @@ Particles start from the bottom, reach their max height of trajectory and then e
 Logic is very similar to that of Exp. 15 (Vector Field) except this time it's the eyes that point towards the mouse instead of arrows. It can be used somewhere in future u.u
 (By logic I mean just a little bit of trigonometry)
 
-### 24. 3D Oscillations #1 - Cubes
+### 24. 2D Mouse Torch
+I don't know, can be used somewhere for decoration I guess. Or maybe, if I start writing an online book some day, I'll include an alternative night mode like this one where user can just lumos to look at the text. Same idea, but the book thing will require a far better and readable design than this.. well I'll leave that problem for future me, enough tasks at hand already.
+
+### 25. 3D Oscillations #1 - Cubes
 Lots of cubes each executing SHM in two dimensions.
 
+### 26. Packing : Circles 
+Random circles are generated with zero radius, they grow until they touch any other circle or borders of the screen. Super simple math. It's just an animation without controls.
 
