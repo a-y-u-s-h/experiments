@@ -6,7 +6,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Link provided saves us from 404 error
   song = loadSound("/sounds/experiments/14.mp3", soundloaded);
-  fft = new p5.FFT(0, 64);
+  fft = new p5.FFT(0.8, 64);
 }
 
 function soundloaded() {
