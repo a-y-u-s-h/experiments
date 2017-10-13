@@ -6,6 +6,7 @@ class Food {
     this.type = Math.floor(random(4));
     this.color = color(data.food.types[this.type].color);
     this.probability = data.food.types[this.type].probability_of_showing_up;
+    this.score = data.food.types[this.type].score;
     this.cx = 0;
     this.cy = 0;
     this.size = this.snake.size;
