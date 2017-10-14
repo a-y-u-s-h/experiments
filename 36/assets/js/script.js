@@ -1,98 +1,286 @@
 let data = {
   sketch: {
-    background: "#248B21"
+    background: "#125467",
+    camera: {
+      x: 0,
+      y: 0,
+      z: 500
+    }
+  },
+  fractal: {
+    size: 100,
+    spacing: 1.5,
+    size_factor: 0.7,
+    opacity_factor: 100,
+    threshhold: 0.5,
+    rotation: {
+      x: 0,
+      y: 0,
+      z: 0
+    }
   }
 };
 
-class Ground {
-  constructor(cx, cy) {
-    this.cx = cx;
-    this.cy = cy;
-    this.w = width * 0.9;
-    this.h = height * 0.85;
-    this.stripes = 21;
-  }
+// Variable to store GUI
+var controlkit;
 
-  show() {
-    push();
-    translate(0, 0);
-    noStroke();
-    for (
-      var i = 0, upperLimit_i = width / this.stripes;
-      i < upperLimit_i;
-      i += 1
-    ) {
-      if (i % 2) {
-        noFill();
-      } else {
-        fill(0, 30);
-      }
-      rect(i * width / this.stripes, 0, width / this.stripes, height);
-    }
-    pop();
-    push();
-    // Setting up common styles for things below it..
-    translate(this.cx, this.cy);
-    rectMode(CENTER);
-    ellipseMode(CENTER);
-    angleMode(DEGREES);
-    noFill();
-    strokeWeight(8);
-    stroke(255);
+// Function to create control GUI
+var createControlKit = () => {
+  controlkit = new ControlKit();
+  controlkit
+    .addPanel({
+      fixed: false,
+      label: "Control Panel"
+    })
+    .addColor(data.sketch, "background", {
+      colorMode: "hex",
+      label: "Background Color"
+    })
+    .addNumberInput(data.sketch.camera, "x", {
+      label: "Camera X",
+      step: 5,
+      dp: 1
+    })
+    .addNumberInput(data.sketch.camera, "y", {
+      label: "Camera Y",
+      step: 5,
+      dp: 1
+    })
+    .addNumberInput(data.sketch.camera, "z", {
+      label: "Camera Z",
+      step: 20,
+      dp: 1
+    })
+    .addSubGroup({
+      label: "Fractal Controls"
+    })
+    .addNumberInput(data.fractal, "opacity_factor", {
+      label: "Opacity Factor",
+      step: 1,
+      dp: 1
+    })
+    .addNumberInput(data.fractal, "size", {
+      label: "Root Size",
+      step: 1,
+      dp: 1
+    })
+    .addNumberInput(data.fractal, "spacing", {
+      label: "Relative Spacing",
+      step: 0.01,
+      dp: 2
+    })
+    .addNumberInput(data.fractal, "size_factor", {
+      label: "Size multiplier",
+      step: 0.01,
+      dp: 2
+    })
+    .addNumberInput(data.fractal, "threshhold", {
+      label: "Threshhold Size",
+      step: 0.01,
+      dp: 3
+    })
+    .addNumberInput(data.fractal.rotation, "x", {
+      label: "Rotation X",
+      step: 0.1,
+      dp: 2
+    })
+    .addNumberInput(data.fractal.rotation, "y", {
+      label: "Rotation Y",
+      step: 0.1,
+      dp: 2
+    })
+    .addNumberInput(data.fractal.rotation, "z", {
+      label: "Rotation Z",
+      step: 0.1,
+      dp: 2
+    });
+};
 
-    // Corner arcs..
-    for (var i = 0, upperLimit_i = 4; i < upperLimit_i; i += 1) {
-      push();
-      translate(
-        this.w * Math.pow(-1, i) * 0.5,
-        this.h * Math.pow(-1, Math.floor((i + 1) / 2)) * 0.5
-      );
-      scale(Math.pow(-1, i + 1), -1);
-
-      if (i == 1 || i == 2) {
-        scale(1, -1);
-      }
-
-      arc(0, 0, 100, 100, 0, 90);
-      pop();
-    }
-
-    // Rectangle which contains everything
-    rect(0, 0, this.w, this.h);
-
-    // Center Circle
-    ellipse(0, 0, this.h * 0.3, this.h * 0.3);
-
-    // Line that separates the two halves
-    line(0, this.h * 0.5, 0, -this.h * 0.5);
-
-    // Rectangles on the side
-    noFill();
-    rect(-this.w * 0.465, 0, this.w * 0.07, this.h * 0.3);
-    rect(-this.w * 0.425, 0, this.w * 0.15, this.h * 0.6);
-
-    fill(0, 50);
-    rect(-this.w * 0.51, 0, this.w * 0.02, this.h * 0.2);
-
-    noFill();
-    rect(this.w * 0.465, 0, this.w * 0.07, this.h * 0.3);
-    rect(this.w * 0.425, 0, this.w * 0.15, this.h * 0.6);
-
-    fill(0, 50);
-    rect(this.w * 0.51, 0, this.w * 0.02, this.h * 0.2);
-
-    pop();
-  }
-}
-
-let ground;
+createControlKit();
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ground = new Ground(width * 0.5, height * 0.5);
+  createCanvas(windowWidth, windowHeight, WEBGL);
 }
 
 function draw() {
+  let mx = mouseX - width * 0.5;
+  let my = -(mouseY - height * 0.5);
   background(data.sketch.background);
-  ground.show();
+  colorMode(HSB, 100);
+  scale(-1, 1, 1);
+  camera(data.sketch.camera.x, data.sketch.camera.y, data.sketch.camera.z);
+  pointLight(100, 100, 50, 0, 0, 3000);
+  orbitControl();
+  fractal(data.fractal.size);
+}
+
+function fractal(size) {
+  push();
+  translate(0, 0, 0);
+  specularMaterial(100, 100, 100, data.fractal.opacity_factor);
+  box(size);
+  angleMode(DEGREES);
+
+  if (size > data.fractal.size * data.fractal.threshhold) {
+    push();
+    line(
+      0,
+      0,
+      0,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    translate(
+      size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    translate(
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    translate(
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    translate(
+      size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    translate(
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    translate(
+      -size * data.fractal.spacing,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    translate(
+      size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+
+    push();
+    line(
+      0,
+      0,
+      0,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    translate(
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing,
+      -size * data.fractal.spacing
+    );
+    rotateX(data.fractal.rotation.x);
+    rotateY(data.fractal.rotation.y);
+    rotateZ(data.fractal.rotation.z);
+    fractal(size * data.fractal.size_factor);
+    pop();
+  }
+  pop();
 }
