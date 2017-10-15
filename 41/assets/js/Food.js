@@ -16,15 +16,15 @@ class Food {
   }
 
   initialize() {
-      if (this.random < this.probability) {
-        this.color = color(data.food.types[this.type].color);
-        this.size = this.snake.size;
-        this.cells = this.grid.return_cell_centers();
-        this.i = Math.floor(random(this.cells.length));
-        this.j = Math.floor(random(this.cells[0].length));
-        this.cx = this.cells[this.i][this.j][0] + this.size * 0.5;
-        this.cy = this.cells[this.i][this.j][1] + this.size * 0.5;
-      }
+    if (this.random < this.probability) {
+      this.color = color(data.food.types[this.type].color);
+      this.size = data.snake.size;
+      this.cells = this.grid.return_cell_centers();
+      this.i = Math.floor(random(this.cells.length));
+      this.j = Math.floor(random(this.cells[0].length));
+      this.cx = this.cells[this.i][this.j][0] + this.size * 0.5;
+      this.cy = this.cells[this.i][this.j][1] + this.size * 0.5;
+    }
   }
 
   show() {
@@ -36,5 +36,9 @@ class Food {
       rect(this.cx, this.cy, this.size, this.size);
       pop();
     }
+  }
+
+  update() {
+    this.size = data.snake.size;
   }
 }

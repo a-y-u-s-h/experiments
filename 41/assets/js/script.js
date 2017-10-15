@@ -119,7 +119,17 @@ function draw() {
   snake.update();
   snake.show();
   for (var i = 0, upperLimit_i = foods.length; i < upperLimit_i; i += 1) {
-    foods[i].show();
+    if (foods[i]) {
+      foods[i].update();
+      foods[i].show();
+
+      if (foods[i].cx == snake.cx && foods[i].cy == snake.cy) {
+        snake.eats(foods[i]);
+        foods.splice(i, 1);
+        foods[i] = new Food(snake, grid);
+        foods[i].initialize();
+      }
+    }
   }
 }
 

@@ -1,281 +1,264 @@
-/**
- * Legend : 
- *   [[function_name]] : Comment notation denoting a function
- *   [variable_name] : Comment notation denoting a variable
- */
-
-/**
-  *
-  * Press SPACE BAR to pause and change the cell's values with the mouse
-  * On pause, click to activate/deactivate cells
-  * Press R to randomly reset the cells' grid
-  * Press C to clear the cells' grid
-  *
-  * The original Game of Life was created by John Conway in 1970.
-  */
-
 let data = {
   sketch: {
-    background: "#FFFFFF"
+    background: "#1e7575"
   },
-  game: {
-    probability_of_being_alive_at_start: 15,
-    pause: false,
-    cell: {
-      size: 20,
-      alive: "#209220",
-      dead: "#000000"
+  shape: {
+    cx: window.innerWidth * 0.60,
+    cy: window.innerHeight * 0.5,
+    animate: {
+      check: true
+    },
+    n: 10,
+    r: 200,
+    rotation: 30,
+    fill: {
+      check: true,
+      color: "#782711"
+    },
+    stroke: {
+      check: true,
+      color: "#360d06",
+      weight: 16,
+      cap: {
+        options: ["Default", "Round", "Square", "Project"],
+        selection: "Default"
+      }
+    },
+    beginModes: {
+      options: [
+        "Default",
+        "Points",
+        "Lines",
+        "Triangles",
+        "Triangle Strip",
+        "Triangle Fan",
+        "Quads",
+        "Quad Strip"
+      ],
+      selection: "Default"
+    },
+    endModes: {
+      options: ["Closed", "Open"],
+      selection: "Closed"
+    },
+    vertices: {
+      options: ["Curved", "Pointy"],
+      selection: "Pointy"
     }
-  },
-  timer: {
-    interval: 200,
-    last_recorded_time: 1
   }
 };
 
-let cells = []; // Will contain states of our cells
-let cells_buffer = []; // Will contain previous values of cells
-
-/**
- * Will fill up [cells] and [cells_buffer] arrays
- * After this function executes : 
- *  1. [cells] will be a 2D array containing one of the two states : 1 or 0
- *  2. [cells_buffer] will be a 2D array of same size with all elements = 0
- *
- * - Should be executed inside setup.
- */
-function initGame() {
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    cells[i] = new Array(upperLimit_i);
-    cells_buffer[i] = new Array(upperLimit_i);
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      let state = random(100);
-      if (state > data.game.probability_of_being_alive_at_start) {
-        state = 0;
-      } else {
-        state = 1;
+let controlkit;
+var createControlKit = () => {
+  controlkit = new ControlKit();
+  controlkit
+    .addPanel({
+      align: "left",
+      fixed: true
+    })
+    .addSubGroup({
+      label: "Sketch Settings"
+    })
+    .addColor(data.sketch, "background", {
+      colorMode: "hex",
+      label: "Background Color"
+    })
+    .addSubGroup({
+      label: "Shape Configs"
+    })
+    .addNumberInput(data.shape, "cx", {
+      label: "Origin X",
+      step: 1
+    })
+    .addNumberInput(data.shape, "cy", {
+      label: "Origin Y",
+      step: 1
+    })
+    .addSelect(data.shape.beginModes, "options", {
+      label: "Shape Modes",
+      onChange: function(index) {
+        data.shape.beginModes.selection = data.shape.beginModes.options[index];
       }
-      cells[i][j] = state;
-    }
-  }
-}
-
-/**
- * Will create a grid, with alive cells : green, dead cells : red
- * Should be executed in draw loop.
- */
-function drawGrid() {
-  let size = data.game.cell.size;
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      if (cells[i][j] == 1) {
-        fill(data.game.cell.alive);
-      } else {
-        fill(data.game.cell.dead);
+    })
+    .addSelect(data.shape.endModes, "options", {
+      label: "End Cases",
+      onChange: function(index) {
+        data.shape.endModes.selection = data.shape.endModes.options[index];
       }
-      let x = i * size;
-      let y = j * size;
-      rect(x, y, size, size);
-    }
-  }
-}
-
-// If timer ticks, iterate..
-function timer() {
-  if (millis() - data.timer.last_recorded_time > data.timer.interval) {
-    if (!data.game.pause) {
-      iteration();
-      data.timer.last_recorded_time = millis();
-    }
-  }
-}
-
-/**
- * Will be called inside [[timer function]]
- * Meaning : Will run every time the clock ticks.
- * 
- */
-function iteration() {
-  /**
-   * Save cells to buffer array so that we can operate with one array keeping the other intact.
-   */
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      cells_buffer[i][j] = cells[i][j];
-    }
-  }
-
-  // Now, we want to visit every cell
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      // ..and find out number of neighbours of each cell..
-      let alive_neighbours = 0;
-
-      for (let x = i - 1, upperLimit_x = i + 1; x <= upperLimit_x; x += 1) {
-        for (let y = j - 1, upperLimit_y = j + 1; y <= upperLimit_y; y += 1) {
-          // Making sure that we're not out of bounds..
-          if (
-            x >= 0 &&
-            x < Math.ceil(width / data.game.cell.size) &&
-            (y >= 0 && y < Math.ceil(height / data.game.cell.size))
-          ) {
-            // Making sure that we aren't inluding the cell itself among its neighbours..
-            if (!(x == i && y == j)) {
-              // If state of neighbour is 1, include it in alive_neighbours..
-              if (cells_buffer[x][y] == 1) {
-                alive_neighbours++;
-              }
-            }
-          }
-        }
+    })
+    .addSelect(data.shape.vertices, "options", {
+      label: "Vertex Types",
+      onChange: function(index) {
+        data.shape.vertices.selection = data.shape.vertices.options[index];
       }
-      // By this line of code, we'll have number of alive neighbours of one cell, now we just have to apply rules of the game.
-
-      // If cell is alive, kill it if necessary..
-      // Else..if it is dead, make it alive if necessary..
-      if (cells_buffer[i][j] == 1) {
-        /** 
-          * According to game rules: 
-          *  1. If number of alive neighbours are less than 2, cell will die of loneliness..
-          *  2. If number of alive neighbours are more than 3, cell will die of over population..
-          */
-        if (alive_neighbours < 2 || alive_neighbours > 3) {
-          cells_buffer[i][j] = 0;
-        }
-      } else {
-        if (alive_neighbours == 3) {
-          cells_buffer[i][j] = 1;
-        }
+    })
+    .addSelect(data.shape.stroke.cap, "options", {
+      label: "Cap Styles",
+      onChange: function(index) {
+        data.shape.stroke.cap.selection = data.shape.stroke.cap.options[index];
       }
-    }
+    })
+    .addCheckbox(data.shape.animate, "check", {
+      label: "Animate?"
+    })
+    .addCheckbox(data.shape.stroke, "check", {
+      label: "Want an outline?"
+    })
+    .addColor(data.shape.stroke, "color", {
+      colorMode: "hex",
+      label: "Stroke Color"
+    })
+    .addNumberInput(data.shape.stroke, "weight", {
+      label: "Stroke Weight",
+      step: 1
+    })
+    .addCheckbox(data.shape.fill, "check", {
+      label: "Want to give it a color?"
+    })
+    .addColor(data.shape.fill, "color", {
+      colorMode: "hex",
+      label: "Fill Color"
+    })
+    .addNumberInput(data.shape, "n", {
+      label: "Controlling Vertices (n)",
+      step: 1
+    })
+    .addNumberInput(data.shape, "r", {
+      label: "Radius of Circumcircle",
+      step: 1
+    })
+    .addNumberInput(data.shape, "rotation", {
+      label: "Rotation",
+      step: 1
+    });
+};
+createControlKit();
+
+class Shape {
+  constructor(cx, cy, radius, n) {
+    this.cx = cx;
+    this.cy = cy;
+    this.r = radius;
+    this.rotation = 0;
+    this.n = n;
   }
-}
 
-// Create a new cell manually on pause..
-function createCellOnPause() {
-  if (data.game.pause && mouseIsPressed) {
-    // Map and avoid out of bound errors..
-    let xCellOver = Math.ceil(
-      map(
-        mouseX - Math.ceil(width / data.game.cell.size) / 2,
-        -Math.ceil(width / data.game.cell.size) / 2,
-        width + Math.ceil(width / data.game.cell.size) / 2,
-        0,
-        Math.ceil(width / data.game.cell.size)
-      )
-    );
-    let yCellOver = Math.ceil(
-      map(
-        mouseY - Math.ceil(height / data.game.cell.size) / 2,
-        -Math.ceil(height / data.game.cell.size) / 2,
-        height + Math.ceil(height / data.game.cell.size) / 2,
-        0,
-        Math.ceil(height / data.game.cell.size)
-      )
-    );
-
-    xCellOver = Math.ceil(
-      constrain(xCellOver, 0, Math.ceil(width / data.game.cell.size) - 1)
-    );
-    yCellOver = Math.ceil(
-      constrain(yCellOver, 0, Math.ceil(height / data.game.cell.size) - 1)
-    );
-
-    // Check against cells in [cells_buffer]
-    if (cells_buffer[xCellOver][yCellOver] == 1) {
-      cells[xCellOver][yCellOver] = 0;
-      fill(data.game.cell.dead);
+  show() {
+    push();
+    translate(this.cx, this.cy);
+    rotate(this.rotation);
+    if (data.shape.fill.check) {
+      fill(data.shape.fill.color);
     } else {
-      cells[xCellOver][yCellOver] = 1;
-      fill(data.game.cell.alive);
+      noFill();
     }
-  } else if (data.game.pause && !mouseIsPressed) {
-    // Save cells to buffer (so we opeate with one array keeping the other intact)
-    for (
-      var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-      i < upperLimit_i;
-      i += 1
-    ) {
+
+    if (data.shape.stroke.check) {
+      stroke(data.shape.stroke.color);
+      strokeWeight(data.shape.stroke.weight);
+    } else {
+      noStroke();
+    }
+
+    switch (data.shape.stroke.cap.selection) {
+      case "Round":
+        strokeCap(ROUND);
+        break;
+      case "Square":
+        strokeCap(SQUARE);
+        break;
+      case "Project":
+        strokeCap(PROJECT);
+        break;
+      default:
+        break;
+    }
+
+    switch (data.shape.beginModes.selection) {
+      case "Points":
+        beginShape(POINTS);
+        break;
+      case "Lines":
+        beginShape(LINES);
+        break;
+      case "Triangles":
+        beginShape(TRIANGLES);
+        break;
+      case "Triangle Strip":
+        beginShape(TRIANGLE_STRIP);
+        break;
+      case "Triangle Fan":
+        beginShape(TRIANGLE_FAN);
+        break;
+      case "Quads":
+        beginShape(QUADS);
+        break;
+      case "Quad Strip":
+        beginShape(QUAD_STRIP);
+        break;
+      default:
+        beginShape();
+        break;
+    }
+    angleMode(DEGREES);
+    if (this.n >= 0) {
       for (
-        var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-        j < upperLimit_j;
-        j += 1
+        var angle = 0, upperLimit_angle = 360;
+        angle < upperLimit_angle;
+        angle += 360 / this.n
       ) {
-        cells_buffer[i][j] = cells[i][j];
+        let x = this.r * cos(angle);
+        let y = this.r * sin(angle);
+        switch (data.shape.vertices.selection) {
+          case "Curved":
+            curveVertex(x, y);
+            break;
+          default:
+            vertex(x, y);
+            break;
+        }
       }
     }
+    switch (data.shape.endModes.selection) {
+      case "Closed":
+        endShape(CLOSE);
+        break;
+      default:
+        endShape();
+        break;
+    }
+    pop();
+  }
+
+  update() {
+    this.n = data.shape.n;
+    this.r = data.shape.r;
+    this.rotation = data.shape.rotation;
+    this.cx = data.shape.cx;
+    this.cy = data.shape.cy;
+  }
+
+  animate() {
+    this.n = data.shape.n * abs(sin(frameCount * 0.5));
+    this.r = data.shape.r * 0.5 + data.shape.r * abs(sin(frameCount * 0.5));
+    this.rotation = data.shape.rotation;
+    this.cx = data.shape.cx;
+    this.cy = data.shape.cy;
   }
 }
 
+let s;
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  initGame();
-  stroke(48);
-  background(0);
+  s = new Shape(width * 0.5, height * 0.5, 100, 3);
 }
 
 function draw() {
   background(data.sketch.background);
-  timer();
-  drawGrid();
-  createCellOnPause();
-}
-
-function keyTyped() {
-  // RESET : Reinitialize the game.
-  if (key == "r" || key == "R") {
-    initGame();
+  if (data.shape.animate.check) {
+    s.animate();
+  } else {
+    s.update();
   }
-
-  if (key == " ") {
-    data.game.pause = !data.game.pause;
-  }
-
-  if (key == "c" || key == "C") {
-    for (
-      var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-      i < upperLimit_i;
-      i += 1
-    ) {
-      for (
-        var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-        j < upperLimit_j;
-        j += 1
-      ) {
-        cells[i][j] = 0;
-      }
-    }
-  }
+  s.show();
 }

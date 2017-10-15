@@ -119,7 +119,7 @@ function fractal(size) {
   translate(0, 0, 0);
   specularMaterial(100, 100, 100, data.fractal.opacity_factor);
   box(size);
-  angleMode(DEGREES);
+  // angleMode(DEGREES);
 
   if (size > data.fractal.size * data.fractal.threshhold) {
     push();
@@ -136,9 +136,9 @@ function fractal(size) {
       size * data.fractal.spacing,
       size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -156,9 +156,9 @@ function fractal(size) {
       -size * data.fractal.spacing,
       size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -176,9 +176,9 @@ function fractal(size) {
       size * data.fractal.spacing,
       size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -196,9 +196,9 @@ function fractal(size) {
       size * data.fractal.spacing,
       -size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -216,9 +216,9 @@ function fractal(size) {
       -size * data.fractal.spacing,
       size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -236,9 +236,9 @@ function fractal(size) {
       size * data.fractal.spacing,
       -size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -256,9 +256,9 @@ function fractal(size) {
       -size * data.fractal.spacing,
       -size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
 
@@ -276,9 +276,9 @@ function fractal(size) {
       -size * data.fractal.spacing,
       -size * data.fractal.spacing
     );
-    rotateX(data.fractal.rotation.x);
-    rotateY(data.fractal.rotation.y);
-    rotateZ(data.fractal.rotation.z);
+    rotateX(radians(data.fractal.rotation.x));
+    rotateY(radians(data.fractal.rotation.y));
+    rotateZ(radians(data.fractal.rotation.z));
     fractal(size * data.fractal.size_factor);
     pop();
   }

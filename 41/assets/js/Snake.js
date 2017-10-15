@@ -1,7 +1,7 @@
 class Snake {
-  constructor() {
-    this.x = 0;
-    this.y = 0;
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
     this.limitX = (Math.floor(width / data.snake.size) - 1) * data.snake.size;
     this.limitY = (Math.floor(height / data.snake.size) - 1) * data.snake.size;
     this.vx = data.snake.size;
@@ -9,6 +9,8 @@ class Snake {
     this.size = data.snake.size;
     this.cx = Math.floor(this.x + this.size * 0.5);
     this.cy = Math.floor(this.y + this.size * 0.5);
+    this.length = 1;
+    this.trail = [];
   }
 
   update() {
@@ -38,6 +40,10 @@ class Snake {
     strokeWeight(data.snake.stroke.weight);
     rectMode(CENTER);
     rect(this.cx, this.cy, this.size, this.size);
+
+    for (var i = 1, upperLimit_i = this.length; i <= upperLimit_i; i += 1) {
+      rect(this.cx, this.cy, this.size, this.size);
+    }
     pop();
     // Required after showing.
     this.cx = Math.floor(this.x + this.size * 0.5);
@@ -47,5 +53,9 @@ class Snake {
   dir(x, y) {
     this.vx = x * data.snake.size;
     this.vy = y * data.snake.size;
+  }
+
+  eats(food) {
+    this.length += food.score;
   }
 }
