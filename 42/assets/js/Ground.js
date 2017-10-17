@@ -1,5 +1,5 @@
 class Ground {
-  constructor(cx, cy) {
+  constructor(cx, cy, paddles) {
     this.cx = cx;
     this.cy = cy;
     this.w = width * 0.93;
