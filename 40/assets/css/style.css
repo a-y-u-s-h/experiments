@@ -1,11 +1,2 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
-}
-
-canvas {
-	display: block;
-}
+html,body{padding:0;margin:0;width:100%;height:100vh;overflow:hidden}canvas{display:block}
+/*# sourceMappingURL=style.css.map */
