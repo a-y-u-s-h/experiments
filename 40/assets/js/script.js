@@ -13,6 +13,7 @@ function setup() {
 
 function draw() {
   background(255);
+  rectMode(CENTER);
   for (
     var i = -1, upperLimit_i = Math.ceil(width / data.squares.size) + 1;
     i < upperLimit_i;
@@ -36,7 +37,7 @@ function draw() {
         fill(255);
         stroke(0);
       }
-      rect(0, 0, data.squares.size * 0.5, data.squares.size * 0.5);
+      rect(0, 0, data.squares.size * 0.4, data.squares.size * 0.4);
       pop();
     }
   }
