@@ -20,10 +20,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 }
 
-function loaded() {
-  loading = false;
-}
-
 function draw() {
   background(data.sketch.background);
   angleMode(DEGREES);
