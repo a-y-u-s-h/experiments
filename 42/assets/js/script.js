@@ -1,20 +1,35 @@
 let data = {
   sketch: {
-    background: "#248B21"
+    background: "#FFFFFF"
+  },
+  rings: {
+    n: 10
   }
 };
 
-let ground;
-let left_paddle;
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  left_paddle = new Paddle("left");
-  ground = new Ground(width * 0.5, height * 0.5, left_paddle);
+  background(data.sketch.background);
 }
 
 function draw() {
-  background(data.sketch.background);
-  ground.show();
-  left_paddle.show();
+  push();
+  strokeWeight(3);
+  stroke(0);
+  line(width * 0.5, 0, width * 0.5, height);
+  pop();
+
+  if (mouseIsPressed) {
+    push();
+    line(pmouseX, pmouseY, mouseX, mouseY);
+    pop();
+
+    push();
+    line(width - pmouseX, pmouseY, width - mouseX, mouseY);
+    pop();
+  }
+}
+
+function keyTyped() {
+    background(data.sketch.background);
 }
