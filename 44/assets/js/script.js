@@ -2,73 +2,55 @@ let data = {
   sketch: {
     background: "#FFFFFF"
   },
-  turtle: {
-    len: 10,
-    length_multiplier: 0.5,
-    stroke: {
-      weight: 1,
-      color: "#000000"
-    },
-    rotation: {
-      left: 30,
-      right: 30
-    }
+  bodies: {
+    n: 50,
+    spacing: 30,
+    base_radius: 0
   }
 };
 
-function turtle(sentence, len) {
-  background(data.sketch.background);
-  resetMatrix();
-  strokeWeight(data.turtle.stroke.weight);
-  stroke(data.turtle.stroke.color);
-  angleMode(DEGREES);
-  translate(width * 0.5, height);
-
-  for (var i = 0, upperLimit_i = sentence.length; i < upperLimit_i; i += 1) {
-    let current = sentence.charAt(i);
-    switch (current) {
-      case "w":
-      case "W":
-        line(0, 0, 0, -len);
-        translate(0, -len);
-        break;
-      case "s":
-      case "S":
-        line(0, 0, 0, len);
-        translate(0, len);
-        break;
-      case "d":
-      case "D":
-        rotate(data.turtle.rotation.right);
-        line(0, 0, 0, -len);
-        translate(0, -len);
-        break;
-      case "a":
-      case "A":
-        rotate(-data.turtle.rotation.left);
-        line(0, 0, 0, -len);
-        translate(0, -len);
-        break;
-      case "p":
-      case "P":
-        push();
-        break;
-      case "o":
-      case "O":
-        pop();
-        break;
-    }
-  }
-}
+let bodies = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  for (var i = 1, upperLimit_i = data.bodies.n; i <= upperLimit_i; i += 1) {
+    bodies.push(new Body(width * 0.5, height * 0.5, i));
+  }
+  noStroke();
+  ellipseMode(CENTER);
 }
 
-function draw() {}
+function draw() {
+  background(data.sketch.background);
+  for (var i = bodies.length - 1, upperLimit_i = 0; i > upperLimit_i; i -= 1) {
+    if (i % 2) {
+      fill(255);
+    } else {
+      fill(0);
+    }
+    bodies[i].show();
+    bodies[i].update();
+  }
+}
 
-let sentence = "";
-function keyTyped() {
-  sentence += `${key}`;
-  turtle(sentence, 10);
+class Body {
+  constructor(x, y, i = 1) {
+    this.x = x;
+    this.y = y;
+    this.i = i;
+    this.r = this.i * data.bodies.spacing + data.bodies.base_radius;
+  }
+
+  show() {
+    push();
+    ellipse(this.x, this.y, this.r, this.r);
+    pop();
+  }
+
+  update() {
+    this.x =
+      100 * sin(frameCount * (data.bodies.n - this.i) * 0.002) + width * 0.5;
+    this.y =
+      100 * cos(frameCount * (data.bodies.n - this.i) * 0.001) + height * 0.5;
+  }
 }
