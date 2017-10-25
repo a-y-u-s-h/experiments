@@ -106,3 +106,107 @@ Random circles are generated with zero radius, they grow until they touch any ot
 ### 27. Illusion with Circles #2 
 Rings of circles with oscillating radii creating an illusion of ripples.
 
+### 28. 10 PRINT Pattern Implementation #1
+Developers in the past used to make this kind of pattern on BASIC and stuff using random numbers and forward & backward slashes. This one is a canvas implementation of a classic trick, without text, only lines.
+Referring to this one : [10 Print](https://www.youtube.com/watch?v=m9joBLOZVEo)
+
+### 29. Fractal Implementation #4 : Arcs
+Reasons for making this :
+1. I like fractals these days.
+2. Last fractal that I made was with circles (blurry memory), and a circle is made up of arcs, so if I make a fractal with arcs and then vary parameters, I should get even more generalised fractal simulator than last one.
+Opinion :
+This one is cool, maybe because it encompasses many fractal patterns because of so many controllable parameters. I couldn't include much in this video, of course. But this line of thinking still has a lot of potential, which I'll think about in future.
+
+### 30. Deception with Colours #1
+An animation showing a classic example of some colour trickery ; how colour of environment of the body can trick our eyes into assuming colour of the body itself.
+In other words :
+When those circular bodies are in white half of the page, they look a little darker than they are, when they're in black half, they look a little brighter than they are, while reality being : both of them have a constant colour of grey at all times as demonstrated by colour picker.
+Those values that colour picker shows us represent colour in hexadecimal form :
+767676 represents grey. 
+000000 represents black. 
+FFFFFF represents white.
+
+### 31. Yin Yang
+It's a simple animation made in JS in around 20 minutes or something. Future plans for it :
+1. To use it in fractals or to make a fractal out of it.
+2. Add some physics or oscillations to it.
+3. Split it into halves and give each half some sort of fish like motion.
+
+### 32.  2 dimensional iterative animation #1 : Maze
+"Exp. 28 : 10 PRINT" was one dimensional iterative animation, where a forward or backward slash would appear at each frame and position itself according to some expression that I decided.
+This one shares the same idea just extended to 2 dimensions. Uses random numbers from a uniform random generator and then creates a maze like structure.
+
+### 33. Sound Visualizer #2 : Bars
+Note : 
+If you want to pause the song : click.
+To resume : click again.
+What I learned after making this :
+1. HSB color mode gives more interesting outputs compared to RGB or HSL when one wants gradual change in color.
+2. I need a better workflow and more songs.
+What do I need to add :
+1. Ways for user to drag and drop their own songs. 
+2. Ways for them to control speed of song, and other parameters.
+Background music credits :
+Title : One step at a time.
+From : TVF Pitchers.
+Music and Lyrics : Vaibhav Bundhoo.
+
+### 34. Pixel Data Manipulation #1 : Dance!
+This experiment is currently my favourite, because my approach while making this was very different than usual, and it looks cool. It's all in JS and loops forever.
+
+### 35. Cube Layers 
+On click, all layers begins to rotate along a common axis with different speeds.
+In future, maybe I should do a similar one with spheres, maybe show layers of atmosphere or lithosphere by choosing some right colours or textures.
+
+### 36. Fractal Implementation #5 : Cubes
+How is this a fractal :
+There's the biggest (root) cube in the center of cluster, at each of its vertices (spacing factor = 1) there's a cube with a little less size, and then they have their own children on their own vertices, and so on. Those wires connect root with its children for each generation.
+3D usually is a little bit tedious to work with. I'm not happy with the controls in this one. I'll add proper controls to this same thing in free time some time later instead of brainstorming again for a new cube based fractal.
+
+### 37. 2D Shape Customizer 
+This tool creates a custom shapes, it's some kind of super primitive polygon making machine, with an unnecessary option to animate it as well.
+What good it may do to this world :
+1. People who want to play with various parameters of a shape, especially front end developers will benefit from it. I mean, who wouldn't play with 2D shapes right?
+2. It has several modes and will produce several shapes. It's not well thought out since I made it in last 2 hours. But I'm sure somebody will get inspired and create a superb thing out of this same idea some day.
+3. One can synchronize their breathing with this thing to *relax*.
+If I spend a few more days making this same thing, I can turn it into something super useful. But I cannot. Time's up. Will get back to this after I finish at least a 100 experiments.
+
+### 38. Fractal Implementation #6 : Suits Animation
+Possibilities are endless with static fractals already, and even more if I start adding motion/animation to various parameters .-. Even then it's a little tough to think of a new pattern and motion after making one.
+This fractal implementation doesn't have any visible controls. Pressing Up and Down arrow keys will change level of fractal, Right and Left arrow keys will change spacing between generations.
+
+### 39. Algorithmic Botany : Tree v1
+Inspired from this cool book : "Algorithmic Beauty of Plants" by Lindenmayer and Prusinkiewicz and works of Daniel Shiffman.
+It talks about the rules and axioms involved in growth of plants. If you're crazy about converting math of greenery around you in code, definitely read this book.
+Another cool book : Algorithmic Beauty of Seashells.
+Note to self :
+This has flaws, it's not complete. No controls for n and delta as given in the book. Better to implement these kind of things in C++ for performance.
+
+### 40. Sound Propagation : Compression & Rarefaction Animation
+This experiment is soundless. It's just some kind of animated visualization of compression and rarefaction, static versions of which teachers show to kids when explaining sound. Book's static versions are kind of boring so I thought I should make this as well.
+
+### 41. Happy Diwali!
+ॐ based fractal with size according to amplitude analysis, and background according to frequency analysis of the background track.
+Background track : Aigiri Nandini (takes a while to load)
+
+### 42. Mirrored Drawing Pad
+Controls : 
+Press any key to clear. 
+Click and drag to draw.
+
+### 43. The Matrix Terminal
+Matrix terminal animation in JS, with Devanagari letters instead of Katakana. Inspired by Emily Xie's matrix animation in p5.js.
+I've been working on some network security and stuff these days in Nettech workshop, better use this terminal from now on.
+
+### 44. Illusion with Circles #3 
+This was going to be a pretty normal experiment ; I didn't expect such interesting behaviour from a thought so simple.
+I was going to create a bunch of circles with initially a common center and maybe alternate black and white colour and give them motion to see what happens. That is exactly what's going on here.
+But this concept can generate a lot of patterns that I can't really show in just one sketch. I can change motion a little bit and create something else entirely. The results of this idea are super sensitive to any change in the equation.
+
+### 45. Illusion with Squares #2 
+A variation of Exp. 44 : this time with squares. This one also has a colour mode. On click, things get coloured appropriately.
+
+### 46. Illusion with Circles #4
+Weird. If my memory resets sometime in future, I won't be able to guess how I made this one.
+
+
