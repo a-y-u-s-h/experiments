@@ -1,281 +1,77 @@
-/**
- * Legend : 
- *   [[function_name]] : Comment notation denoting a function
- *   [variable_name] : Comment notation denoting a variable
- */
-
-/**
-  *
-  * Press SPACE BAR to pause and change the cell's values with the mouse
-  * On pause, click to activate/deactivate cells
-  * Press R to randomly reset the cells' grid
-  * Press C to clear the cells' grid
-  *
-  * The original Game of Life was created by John Conway in 1970.
-  */
-
 let data = {
   sketch: {
     background: "#FFFFFF"
   },
-  game: {
-    probability_of_being_alive_at_start: 15,
-    pause: false,
-    cell: {
-      size: 20,
-      alive: "#209220",
-      dead: "#000000"
+  bodies: {
+    n: 100,
+    spacing: 20,
+    base_radius: 0,
+    colored: false,
+    shape: {
+      n: 3,
+      r: 100,
+      circular: true
     }
-  },
-  timer: {
-    interval: 200,
-    last_recorded_time: 1
   }
 };
 
-let cells = []; // Will contain states of our cells
-let cells_buffer = []; // Will contain previous values of cells
-
-/**
- * Will fill up [cells] and [cells_buffer] arrays
- * After this function executes : 
- *  1. [cells] will be a 2D array containing one of the two states : 1 or 0
- *  2. [cells_buffer] will be a 2D array of same size with all elements = 0
- *
- * - Should be executed inside setup.
- */
-function initGame() {
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    cells[i] = new Array(upperLimit_i);
-    cells_buffer[i] = new Array(upperLimit_i);
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      let state = random(100);
-      if (state > data.game.probability_of_being_alive_at_start) {
-        state = 0;
-      } else {
-        state = 1;
-      }
-      cells[i][j] = state;
-    }
-  }
-}
-
-/**
- * Will create a grid, with alive cells : green, dead cells : red
- * Should be executed in draw loop.
- */
-function drawGrid() {
-  let size = data.game.cell.size;
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      if (cells[i][j] == 1) {
-        fill(data.game.cell.alive);
-      } else {
-        fill(data.game.cell.dead);
-      }
-      let x = i * size;
-      let y = j * size;
-      rect(x, y, size, size);
-    }
-  }
-}
-
-// If timer ticks, iterate..
-function timer() {
-  if (millis() - data.timer.last_recorded_time > data.timer.interval) {
-    if (!data.game.pause) {
-      iteration();
-      data.timer.last_recorded_time = millis();
-    }
-  }
-}
-
-/**
- * Will be called inside [[timer function]]
- * Meaning : Will run every time the clock ticks.
- * 
- */
-function iteration() {
-  /**
-   * Save cells to buffer array so that we can operate with one array keeping the other intact.
-   */
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      cells_buffer[i][j] = cells[i][j];
-    }
-  }
-
-  // Now, we want to visit every cell
-  for (
-    var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-    i < upperLimit_i;
-    i += 1
-  ) {
-    for (
-      var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-      j < upperLimit_j;
-      j += 1
-    ) {
-      // ..and find out number of neighbours of each cell..
-      let alive_neighbours = 0;
-
-      for (let x = i - 1, upperLimit_x = i + 1; x <= upperLimit_x; x += 1) {
-        for (let y = j - 1, upperLimit_y = j + 1; y <= upperLimit_y; y += 1) {
-          // Making sure that we're not out of bounds..
-          if (
-            x >= 0 &&
-            x < Math.ceil(width / data.game.cell.size) &&
-            (y >= 0 && y < Math.ceil(height / data.game.cell.size))
-          ) {
-            // Making sure that we aren't inluding the cell itself among its neighbours..
-            if (!(x == i && y == j)) {
-              // If state of neighbour is 1, include it in alive_neighbours..
-              if (cells_buffer[x][y] == 1) {
-                alive_neighbours++;
-              }
-            }
-          }
-        }
-      }
-      // By this line of code, we'll have number of alive neighbours of one cell, now we just have to apply rules of the game.
-
-      // If cell is alive, kill it if necessary..
-      // Else..if it is dead, make it alive if necessary..
-      if (cells_buffer[i][j] == 1) {
-        /** 
-          * According to game rules: 
-          *  1. If number of alive neighbours are less than 2, cell will die of loneliness..
-          *  2. If number of alive neighbours are more than 3, cell will die of over population..
-          */
-        if (alive_neighbours < 2 || alive_neighbours > 3) {
-          cells_buffer[i][j] = 0;
-        }
-      } else {
-        if (alive_neighbours == 3) {
-          cells_buffer[i][j] = 1;
-        }
-      }
-    }
-  }
-}
-
-// Create a new cell manually on pause..
-function createCellOnPause() {
-  if (data.game.pause && mouseIsPressed) {
-    // Map and avoid out of bound errors..
-    let xCellOver = Math.ceil(
-      map(
-        mouseX - Math.ceil(width / data.game.cell.size) / 2,
-        -Math.ceil(width / data.game.cell.size) / 2,
-        width + Math.ceil(width / data.game.cell.size) / 2,
-        0,
-        Math.ceil(width / data.game.cell.size)
-      )
-    );
-    let yCellOver = Math.ceil(
-      map(
-        mouseY - Math.ceil(height / data.game.cell.size) / 2,
-        -Math.ceil(height / data.game.cell.size) / 2,
-        height + Math.ceil(height / data.game.cell.size) / 2,
-        0,
-        Math.ceil(height / data.game.cell.size)
-      )
-    );
-
-    xCellOver = Math.ceil(
-      constrain(xCellOver, 0, Math.ceil(width / data.game.cell.size) - 1)
-    );
-    yCellOver = Math.ceil(
-      constrain(yCellOver, 0, Math.ceil(height / data.game.cell.size) - 1)
-    );
-
-    // Check against cells in [cells_buffer]
-    if (cells_buffer[xCellOver][yCellOver] == 1) {
-      cells[xCellOver][yCellOver] = 0;
-      fill(data.game.cell.dead);
-    } else {
-      cells[xCellOver][yCellOver] = 1;
-      fill(data.game.cell.alive);
-    }
-  } else if (data.game.pause && !mouseIsPressed) {
-    // Save cells to buffer (so we opeate with one array keeping the other intact)
-    for (
-      var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-      i < upperLimit_i;
-      i += 1
-    ) {
-      for (
-        var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-        j < upperLimit_j;
-        j += 1
-      ) {
-        cells_buffer[i][j] = cells[i][j];
-      }
-    }
-  }
-}
+let bodies = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  initGame();
-  stroke(48);
-  background(0);
+  for (var i = 1, upperLimit_i = data.bodies.n; i <= upperLimit_i; i += 1) {
+    bodies.push(new Body(width * 0.5, height * 0.5, i));
+  }
+  noFill();
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  colorMode(HSB, 100);
+  angleMode(DEGREES);
 }
 
 function draw() {
   background(data.sketch.background);
-  timer();
-  drawGrid();
-  createCellOnPause();
+  for (var i = bodies.length - 1, upperLimit_i = 0; i > upperLimit_i; i -= 1) {
+    bodies[i].show();
+    bodies[i].update();
+  }
 }
 
-function keyTyped() {
-  // RESET : Reinitialize the game.
-  if (key == "r" || key == "R") {
-    initGame();
+class Body {
+  constructor(x, y, i = 1) {
+    this.x = x;
+    this.y = y;
+    this.i = i;
+    this.r = this.i * data.bodies.spacing + data.bodies.base_radius;
   }
 
-  if (key == " ") {
-    data.game.pause = !data.game.pause;
-  }
-
-  if (key == "c" || key == "C") {
-    for (
-      var i = 0, upperLimit_i = Math.ceil(width / data.game.cell.size);
-      i < upperLimit_i;
-      i += 1
-    ) {
+  show() {
+    push();
+    translate(this.x, this.y);
+    if (!data.bodies.shape.circular) {
+      beginShape();
       for (
-        var j = 0, upperLimit_j = Math.ceil(height / data.game.cell.size);
-        j < upperLimit_j;
-        j += 1
+        var angle = 0, upperLimit_angle = 360;
+        angle < upperLimit_angle;
+        angle += 360 / data.bodies.shape.n
       ) {
-        cells[i][j] = 0;
+        let x = this.r * cos(angle);
+        let y = this.r * sin(angle);
+        vertex(x, y);
       }
+      endShape();
+    } else {
+      ellipse(0, 0, this.r, this.r);
     }
+    pop();
   }
+
+  update() {
+    this.x =
+      -100 * cos(frameCount * (data.bodies.n - this.i) * 0.05) + width * 0.5;
+  }
+}
+
+function mousePressed() {
+  data.bodies.colored = !data.bodies.colored;
 }
