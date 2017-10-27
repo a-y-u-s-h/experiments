@@ -1,46 +1,29 @@
-let data = {
-  sketch: {
-    background: "#456778"
-  },
-  body: {
-    r_multipler: {
-      three: 4,
-      two: 10
-    },
-    force_constant: 100000
-  },
-  rings: {
-    n: 60,
-    r: 300
-  }
-};
-
-let body1;
-let body2;
-let ring;
-
 function setup() {
-  createCanvas(windowWidth, windowHeight, WEBGL);
-  body2 = new Body(200, 0, 0, 10, 0);
-  body1 = new Body(-200, 0, 0, 10, 0);
-  ring = new Ring(0, 0, 0);
-  ring.initialize();
+  createCanvas(windowWidth, windowHeight);
+  background(255);
 }
 
+var x = 0;
 function draw() {
-  background(data.sketch.background);
-  scale(1, -1);
-
-  ring.display();
-  let force1 = body1.calculateForce(body2);
-  let force2 = body2.calculateForce(body1);
-
-  body1.applyForce(force2.mult(-1));
-  body2.applyForce(force1.mult(-1));
-
-  body1.display3D();
-  body1.update();
-
-  body2.display3D();
-  body2.update();
+  rectMode(CENTER);
+  fill(
+    map(mouseX, 0, windowWidth, 255, 0),
+    map(mouseY, 0, windowHeight, 255, 0),
+    map(
+      Math.pow(mouseX, 2) + Math.pow(mouseY, 2),
+      0,
+      Math.pow(windowWidth, 2) + Math.pow(windowHeight, 2),
+      255,
+      0
+    )
+  );
+  translate(mouseX, mouseY);
+  rotate(x);
+  rect(
+    0,
+    0,
+    map(mouseX, 0, windowWidth, 40, 400),
+    map(mouseY, 0, windowHeight, 40, 400)
+  );
+  x = lerp(x, x + 1, 0.2);
 }
