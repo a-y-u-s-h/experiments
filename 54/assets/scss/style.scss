@@ -9,3 +9,16 @@ html, body {
 canvas {
 	display: block;
 }
+
+#controlKit .panel {
+    width: 25vw !important;
+    height: 100vh !important;
+}
+
+#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label {
+    width: 30% !important;
+}
+
+#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap {
+    width: 50% !important;
+}
