@@ -60,12 +60,11 @@ class Body {
     let threshhold = 0;
 
     if (distance > threshhold) {
-      var magnitude = abs(
+      var magnitude =
         data.body.force_constant *
-          this.mass *
-          another.mass /
-          Math.pow(distance, 2)
-      );
+        this.mass *
+        another.mass /
+        Math.pow(distance, 2);
     }
     var direction = p5.Vector.sub(this.position, another.position);
     direction.normalize();
