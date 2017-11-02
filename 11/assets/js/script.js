@@ -1,3 +1,19 @@
+/**
+ * Experiment 11 : 3D Rotating Cube with Three.js
+ *
+ * Description : 
+ *
+ *    It's something that pretty much every beginner makes while learning Three.js - A rotating Cube. 
+ *    I didn't even add extensive controls to it while making this one. I'll do that some other day.
+ *
+ * Remarks: 
+ *
+ *    I did make a similar one in September last year, but even after making it that day, 
+ *    I didn't understand a thing that I typed, 
+ *    because back then I was a beginner in programming itself and was trying to learn three.js without any knowledge of OOP whatsover. 
+ *    Now it feels like a piece of cake.
+ */
+
 // Variables required to render a 3D scene
 let camera, renderer, scene;
 
@@ -42,45 +58,6 @@ var createControlKit = () => {
     });
 };
 createControlKit();
-
-/* 
-  Class: Box
-  Fields : size, rotation_angle, shape, cover, light, mesh
-  Methods: 
-    1. Show : adds light and mesh to the scene
-    2. Update : sets rotation of mesh, light's color and intensity and increases rotation angle according to speed.
-*/ 
-class Box {
-  constructor() {
-    this.size = 200;
-    this.rotation_angle = 0;
-    this.shape = new THREE.BoxGeometry(
-      data.cube.size,
-      data.cube.size,
-      data.cube.size
-    );
-    this.cover = new THREE.MeshNormalMaterial();
-    this.light = new THREE.AmbientLight(data.light.color, data.light.intensity);
-    this.mesh = new THREE.Mesh(this.shape, this.cover);
-  }
-
-  show() {
-    scene.add(this.light);
-    scene.add(this.mesh);
-  }
-
-  update() {
-    // this.mesh.size.set(data.cube.size, data.cube.size, data.cube.size);
-    this.mesh.rotation.set(
-      this.rotation_angle,
-      this.rotation_angle,
-      this.rotation_angle
-    );
-    this.light.color.set(data.light.color);
-    this.light.intensity = data.light.intensity;
-    this.rotation_angle += data.cube.rotation_speed;
-  }
-}
 
 /*
   Setup function of this sketch.

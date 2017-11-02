@@ -1,3 +1,17 @@
+/**
+ * Experiment 6 : Fractal Implementation #1 : Tree
+ *
+ * Description : 
+ *
+ *      A fractal is a pattern that repeats itself over and over again. This is what I've made here. A fractal tree.
+ *
+ * Remarks : 
+ *
+ *      Fractal Math is beautiful to play with. 
+ *      I can go on and on and on and on and on...with recursions, and not get tired. 
+ *      This one was my very first implementation of it, and I played with it for 3+ hours or something.
+ */
+
 // Data related to this experiment, will be controlled by GUI, mostly.
 var data = {
     mf: 0.597,

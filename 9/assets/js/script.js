@@ -1,3 +1,21 @@
+/**
+ * Experiment 9 : Illusion of 3D with Rotating Squares!
+ *
+ * Description : 
+ * 
+ * It's exactly what the title says : an illusion of 3D. Again, 
+ * I overdid it maybe with the controls, but I think it's cool. One day if required, 
+ * I can choose one of the cool parameter sets to be used in something small..maybe like a webpage for some college fest? 
+ * I have no clue, but..it may be useful someday.
+ *
+ * Remarks : 
+ *
+ * I don't have any mastery on 3D animations/interactions yet, 
+ * this one's made with 2D canvas. 
+ * But again, a lot can be done with 2D itself. 
+ * This is one great example.s
+ */
+
 data = {
     background: "#E8DADA",
     n: 120,
@@ -67,79 +85,14 @@ var createControlKit = () => {
 };
 createControlKit();
 
+// This array stores Square objects.
 let squares = [];
 
-class Square {
-    constructor(cx, cy, size, i_factor) {
-        this.revCx = width / 2;
-        this.revCy = height / 2;
-        this.cx = cx;
-        this.cy = cy;
-        this.size = size;
-        this.rotation = 0;
-        this.revolution = 0;
-        this.i_factor = i_factor;
-        this.position = 2 * i_factor * Math.PI / data.n;
-        this.phi = 2 * i_factor * Math.PI / data.n;
-    }
-
-    show() {
-        push();
-        translate(this.cx, this.cy);
-        rectMode(CENTER);
-        angleMode(DEGREES);
-        rotate(this.rotation);
-        stroke(data.square.stroke);
-        strokeWeight(data.square.stroke_weight);
-        fill(data.square.fill);
-        rect(0, 0, this.size, this.size);
-        pop();
-    }
-
-    update() {
-        this.size = data.square.size;
-        this.phi = this.position * data.movement.separation;
-    }
-
-    rotate() {
-        this.rotation = lerp(
-            this.rotation,
-            this.rotation + 1,
-            data.square.rotation_speed
-        );
-    }
-
-    revolve() {
-        angleMode(DEGREES);
-        this.cx =
-            this.revCx +
-            data.movement.radius *
-                cos(
-                    degrees(this.revolution) +
-                        degrees(this.phi) +
-                        degrees(this.position)
-                );
-        this.cy =
-            this.revCy +
-            data.movement.radius *
-                sin(
-                    degrees(this.revolution) +
-                        degrees(this.phi) +
-                        degrees(this.position)
-                );
-        this.revolution = lerp(
-            this.revolution,
-            this.revolution + 1,
-            map(data.movement.revolution_speed, 0, 100, 0, 1)
-        );
-    }
-}
-
-let squres = [];
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
 
+    // Filling up the squares array.
     for (var i = 1; i <= data.n; i += 1) {
         squares.push(new Square(width / 2, height / 2, data.square.size, i));
     }
@@ -148,6 +101,7 @@ function setup() {
 function draw() {
     background(data.background);
 
+    // Displaying and updating everything.
     if (data.follow_mouse == true) {
         for (var i = 0, upperLimit = data.n; i < upperLimit; i += 1) {
             squares[i].revCx = mouseX;

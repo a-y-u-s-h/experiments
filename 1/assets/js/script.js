@@ -1,3 +1,13 @@
+/**
+ * Experiment 1 : Illusion with Circles #1
+ *
+ * Description : 
+ *
+ * There's a big circle whose radius can be controlled, 
+ * on it there are small circles equally distributed whose numbers and radii can be controlled as well. 
+ * Points are rotating on each of those small circles and are connected by lines creating illusion of 3D at default parameters that I chose.
+ */
+
 var particles = []; // Will store array of PointsOnCircle object instances.
 var smallCircles = []; // Will store array of CircularThing object instances : specifically speaking :- Smaller Circles.
 var bigCircle; // Variable to store Big Circle
@@ -80,78 +90,7 @@ function createControlKit() {
     });
 }
 
-/*
-  Will create a circle with center  (cx, cy), radius : r.
-  (x, y) are coordinates of any point on that circle.
-  Therefore : 
-  x = rcos(theta + phi);
-  y = rsin(theta + phi);
-  The 'angle' that is to be passed will be used by 'incrementTheta' method.
-  'incrementTheta' : Will increment 'theta' field by 'angle' amount and update x and y.
-*/
-function CircularThing(cx, cy, r, angle = 0, phi = 0) {
-  this.cx = cx;
-  this.cy = cy;
-  this.r = r;
-  this.phi = phi;
-  this.x;
-  this.y;
-  this.theta = 0;
-  this.show = function() {
-    stroke(0);
-    noFill();
-    strokeWeight(1);
-    // Drawing out a circle with (cx, cy) as its center and r as its radius.
-    ellipse(this.cx, this.cy, this.r, this.r);
 
-    // Setting up coordinates of arbitrary point on this circle, with theta = 0 initially;
-    this.x = this.cx + this.r * Math.cos(this.theta + this.phi);
-    this.y = this.cy + this.r * Math.sin(this.theta);
-  };
-  this.incrementTheta = function() {
-    // Increasing theta by 'angle' amount, which is by default = 0.
-    this.theta += angle;
-    // Updating x and y fields so that they can be used somewhere.
-    this.x = this.cx + this.r * Math.cos(this.theta + this.phi);
-    this.y = this.cy + this.r * Math.sin(this.theta + this.phi);
-  };
-}
-
-/*
-  Arguments to be passed : 
-  (cx, cy) : Coordinates of Center of Circle on which you want this point to lie.
-  r : Radius of Circle on which you want this point to lie.
-  clockwise : If true, the point will rotate in clockwise direction.
-  phi : phase for the point. By default = 0
-*/
-function PointOnCircle(cx, cy, r, clockwise = true, phi = 0) {
-  this.r = r;
-  this.cx = cx;
-  this.cy = cy;
-  this.x;
-  this.y;
-  this.speed = map(data.speed, 0, 200, 0, 0.1);
-  this.theta = 0;
-  this.phi = phi;
-
-  this.show = function() {
-    stroke(0);
-    strokeWeight(1);
-    this.x = this.cx + this.r * Math.cos(this.theta + this.phi);
-    this.y = this.cy + this.r * Math.sin(this.theta + this.phi);
-    point(this.x, this.y);
-  };
-
-  this.update = function() {
-    this.x = this.cx + this.r * Math.cos(this.theta + this.phi);
-    this.y = this.cy + this.r * Math.sin(this.theta + this.phi);
-    if (clockwise) {
-      this.theta += this.speed;
-    } else {
-      this.theta -= this.speed;
-    }
-  };
-}
 
 function createCircles() {
   /* 
@@ -208,6 +147,7 @@ function draw() {
   // Shifting origin to center of screen as promised.
   translate(windowWidth / 2, windowHeight / 2);
 
+  // Showing everything.
   if (data.showbigcircle) {
     bigCircle.show();
   }
@@ -221,6 +161,7 @@ function draw() {
     particles[i].show();
     particles[i].update();
   }
+  // Creating lines between circles when required
   for (var i = 0; i < particles.length; i += 1) {
     for (var j = 0; j < particles.length; j += 1) {
       if (i != j && i > j) {

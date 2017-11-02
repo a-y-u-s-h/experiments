@@ -1,3 +1,17 @@
+/**
+ * Experiment 10 : Particles : Cloud-ish Effect
+ *
+ * Description : 
+ *     It's a simple experiment with no controls. 
+ *     User clicks and drags the mouse, points (..actually tiny ellipses/circles) near mouse expand creating a cloud-like effect. 
+ *     Would serve better as some webpage's background, 
+ *     it seems there may be a little demand for these kind of things on college fest websites or on maybe any other flashy website.
+ *
+ * Remarks :
+ *     I once saw something like this around 9 months ago and thought to myself: 
+ *     "Man, it'll take me years to make something like this" ..and now today I built this without much effort. Feels nice.
+ */
+
 /*
   Data for this experiment
 */
@@ -8,45 +22,6 @@ let data = {
     stroke_weight: 1
   }
 };
-
-
-/*
-  Class: Bubble
-  Fields : x, y, radius
-  Methods: 
-    1. Show : Displays the ellipses 
-    2. Update: Updates radius and things 
-*/
-class Bubble {
-  constructor() {
-    this.x = random(width);
-    this.y = random(height);
-    this.radius = 0;
-  }
-
-  show() {
-    stroke(data.bubble.stroke);
-    strokeWeight(data.bubble.strokeWeight);
-    fill(random(200, 255), 100);
-    ellipse(this.x, this.y, this.radius, this.radius);
-  }
-
-  update() {
-    this.radius = lerp(this.radius, random(1, 5), 0.03);
-
-    let mouseLocation = new p5.Vector(mouseX, mouseY);
-    let centerLocation = new p5.Vector(this.x, this.y);
-
-    if (mouseIsPressed) {
-      if (mouseLocation.dist(centerLocation) < this.radius + 50) {
-        this.radius = lerp(this.radius, this.radius + 10, 0.7);
-      } else {
-        this.x = lerp(this.x, this.x + random(-1, 1), 0.4);
-        this.y = lerp(this.y, this.y + random(-1, 1), 0.4);
-      }
-    }
-  }
-}
 
 // Array to store instances of Bubble class
 let bubbles = [];

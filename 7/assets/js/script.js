@@ -1,3 +1,19 @@
+/**
+ * Experiment 7 : 2D Orbital Motion Implementaion #1
+ *
+ * Description : 
+ *
+ *      'Orbital motion' here is something moving on an ellipse. 
+ *      I've provided controls in this experiment as well so that user can play with various parameters, 
+ *      such as color, thickness of border of 'planets', etc. and produce creative things. 
+ *      It's better to look at than reading its description.
+ *
+ * Remarks : 
+ *
+ *      It's a cool example showing how many periodic motions with different periods can result in another periodic motion with its own time period 
+ *      (..LCM of time periods?) ...Whatever, I had fun making it!
+ */
+
 // Data for this experiment
 let data = {
     background: "#223344",
@@ -67,78 +83,6 @@ var createControlKit = () => {
             label: "Fill Color"
         });
 };
-
-class CircularBody {
-    constructor(
-        cx,
-        cy,
-        spacing_factor_a,
-        spacing_factor_b,
-        speed_factor,
-        fc = color(255),
-        sc = color(0) // Stroke color of Orbit, by default  = black
-    ) {
-        this.cx = cx;
-        this.cy = cy;
-        this.ia = spacing_factor_a / 2;
-        this.ib = spacing_factor_b / 2;
-        this.ra = this.ia * data.a_spacing;
-        this.rb = this.ib * data.b_spacing;
-        this.r = this.ia * data.common_spacing;
-        this.fill = fc;
-        this.stroke = sc;
-        this.theta = 0;
-        this.p_speed_factor = speed_factor;
-        this.px = this.ra * Math.cos(this.theta);
-        this.py = this.rb * Math.sin(this.theta);
-    } 
-
-    show() {
-        push();
-        stroke(data.orbit_color);
-        strokeWeight(data.orbit_stroke_weight);
-        noFill();
-        if (data.a_spacing == data.b_spacing ) {
-            this.r = this.ia * data.common_spacing;
-            ellipse(this.cx, this.cy, this.r * 2, this.r * 2);
-        } else {
-            this.ra = this.ia * data.a_spacing;
-            this.rb = this.ib * data.b_spacing;
-            ellipse(this.cx, this.cy, this.ra * 2, this.rb * 2);
-        }
-        pop();
-    }
-
-    pShow() {
-        push();
-        translate(this.cx, this.cy);
-        stroke(data.points.stroke);
-        strokeWeight(data.points.stroke_weight);
-
-        if (data.a_spacing !== data.b_spacing) {
-            this.ra = this.ia * data.a_spacing;
-            this.rb = this.ib * data.b_spacing;
-            this.px = this.ra * Math.cos(this.theta);
-            this.py = this.rb * Math.sin(this.theta);
-        } else {
-            this.r = this.ia * data.common_spacing;
-            this.px = this.r * Math.cos(this.theta);
-            this.py = this.r * Math.sin(this.theta);
-        }
-        ellipseMode(CENTER);
-        fill(data.points.color);
-        ellipse(this.px, this.py, data.points.radius, data.points.radius);
-        pop();
-    }
-
-    pUpdate() {
-        this.theta = lerp(
-            this.theta,
-            this.theta + 1,
-            this.p_speed_factor * data.speed
-        );
-    }
-}
 
 let bodies = []; // Array to store circular bodies;
 

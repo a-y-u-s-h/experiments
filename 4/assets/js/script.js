@@ -1,3 +1,20 @@
+/**
+ * Experiment 4 : Bouncing Balls
+ *
+ * Description : 
+ *
+ * This is one of my very first object oriented and artistic projects. 
+ * It blew my mind when I first made it. There is a class : Ball, 
+ * and then I'm pushing object instances of it in an array whenever a click & drag event is recorded 
+ * and then I'm displaying and moving all of those Balls according to real life physics turned into code.
+ *
+ * Remarks : 
+ *
+ * There's just one thing odd about it, but I don't really wanna change it and that is : 
+ * Ball's energy increases after every collision with the ground.
+ */
+
+
 // Data
 var data = {
     radius: 10,
@@ -6,41 +23,6 @@ var data = {
 
 // This array will contain all our balls
 var balls = [];
-
-// This ball class will create balls with interesting behavior whenever mouse is clicked and dragged.
-// Arguments : x coordinate, y coordinate, radius
-class Ball {
-    constructor(
-        x = random(0, window.innerWidth),
-        y = random(0, window.innerHeight),
-        r = 10
-    ) {
-        this.position = [x, y];
-        this.velocity = [0, 0];
-        this.acceleration = [0, 1];
-        this.r = map(r, 0, window.innerWidth + window.innerHeight, 1, 100);
-    }
-
-    display() {
-        strokeWeight(1);
-        stroke(200);
-        fill(50);
-        ellipse(this.position[0], this.position[1], this.r, this.r);
-    }
-
-    move() {
-        this.position[0] += this.velocity[0];
-        this.position[1] += this.velocity[1];
-        this.velocity[0] += this.acceleration[0];
-        this.velocity[1] += this.acceleration[1];
-        if (this.position[0] >= width - 0 || this.position[0] <= 0) {
-            this.velocity[0] *= -1;
-        }
-        if (this.position[1] >= height || this.position[1] <= 0) {
-            this.velocity[1] = -1 * this.velocity[1];
-        }
-    }
-}
 
 // Function runs when document loads, just one time.
 function setup() {

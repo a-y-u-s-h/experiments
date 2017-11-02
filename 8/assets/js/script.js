@@ -1,3 +1,21 @@
+/**
+ * Experiment 8 : Graph Paper
+ *
+ * Description :
+ * 
+ *     A super simple graph paper implementation in Canvas. 
+ *     User can rotate, zoom in (kind of..) etcetera with controls provided. It can also change colour. 
+ *     I may use this sometime later to simulate, something like, I don't know..a CRO machine maybe?..Or anything that'd require a graph paper to look good.
+ *
+ * Remarks :
+ *
+ *      I've made something like this some months ago, maybe in April or March. 
+ *      That one's still there on my codepen profile. 
+ *      This one's a little different and it has controls.
+
+ */
+
+// Data for this experiment
 let data = {
     pixel: 50,
     background: "#071A09",
@@ -67,6 +85,8 @@ function draw() {
     background(data.background);
     angleMode(DEGREES);
     rotate(data.rotation);
+
+    // Logic to draw a styled graph paper.
     if (data.pixel > 49) {
         for (var i = 0; i < windowWidth; i += data.pixel) {
             push();
@@ -108,4 +128,5 @@ function draw() {
     }
 }
 
+// Create controls.
 createControlKit();

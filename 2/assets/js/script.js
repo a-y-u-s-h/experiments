@@ -1,3 +1,19 @@
+/**
+ * Experiment 2 : WaveOps
+ *
+ * Description : 
+ *
+ * An educational thing where user can listen to various waves, play with their parameters, 
+ * perform addition and multiplication operations on two waves. 
+ * See Inputs and Outputs in TIme Domain as well as Frequency Domain.
+ *
+ * Remarks : 
+ * I'd suggest not to keep amplitude above 1. 
+ * Speakers are prone to get damaged only if the volume is high. 
+ * So don't shy away from keeping frequency to be 5000 or something while playing.
+ * 
+ */
+
 // Variable to store control UI
 var controlkit;
 
@@ -377,7 +393,7 @@ var c_3 = s => {
                 Iterating with limits 0 inclusive to 1024 exclusive.
                 Time domain signal calculation is straight forward multiplication.
                 When two waves are multiplied, they create two waves with amplitudes AB/2 and at frequencies (a + b) and (a - b)
-                */
+        */
 
 				for (
 					var i = 0, upperLimit = data.bins.selection;
@@ -418,7 +434,7 @@ var c_3 = s => {
                 But that's a poor of solving this problem. 
                 Since I already had an FFT object available to me, listening to oscillators of both Canvas 1 and 2. The actual thing that it..
                 listens to is the addition of those two waveforms. So I just need to get time-domain and frequency-domain signals.
-                */
+        */
 				waveform_3 = fft.waveform();
 				spectrum_3 = fft.analyze();
 				break;

@@ -1,3 +1,24 @@
+/**
+ * Experiment 5 : SHM thing #1
+ *
+ * Description : 
+ *
+ *     Okay, so if you want to understand the naming convention I chose for the controls or if you just want to imagine it with only description,
+ *     then imagine this: There are X and Y axes..and there are two points - one able to move only along X axis and another only along Y, 
+ *     I named them 'anchors'. Both of those anchors undergo their separate Simple Harmonic Motions, 
+ *     their individual angular speeds, amplitudes, etc can be controlled on the fly. 
+ *     Then on a line joining those two, 
+ *     there's a point which divides the line segment joining those anchors in some ratio, 
+ *     say m1: m2. m1 is distance (or proximity) from X-anchor and m2 is same from Y-anchor.
+ *
+ * Remarks : 
+ * 
+ *    In short, it's some sort of cool thing based on Simple Harmonic Motion. 
+ *    I'm pretty sure I'll come up with some cooler implementation of SHM in future, 
+ *    but for today this feels like enough exerciser for the brain. 
+ *    I've not played much with it yet, so if you guys find some cool pattern, show me too! 
+ */
+
 // Variable to store control UI
 var controlkit;
 
@@ -94,86 +115,10 @@ var createControlKit = () => {
         });
 };
 
-/*
-    Class to create anchors on X axis and Y axis
-*/
-class SHMPoint {
-    constructor(axis) {
-        this.axis = axis;
-        this.x = 0;
-        this.y = 0;
-        this.theta = 0;
-        this.phi = 0;
-        this.amplitude = 0;
-        this.speed = 0;
-    }
-
-    show() {
-        // Create a point at origin
-        strokeWeight(1);
-        point(this.x, this.y);
-        strokeWeight(1);
-        // If axis provided is Y, then it'll perform SHM on Y axis. Main thing happens in update method.
-        if (this.axis == "Y") {
-            this.y =
-                this.amplitude *
-                Math.sin(degrees(this.theta) + degrees(this.phi));
-            this.phi = data.phi.yp;
-        }
-        // If axis provided is X, then it'll perform SHM on X axis. Main thing happens in update method.
-        if (this.axis == "X") {
-            this.x =
-                this.amplitude *
-                Math.sin(degrees(this.theta) + degrees(this.phi));
-            this.phi = data.phi.xp;
-        }
-    }
-
-    update() {
-        //  Y = A * sin(wt + phi);
-        if (this.axis == "Y") {
-            this.amplitude = data.amplitude.yp;
-            this.speed = data.speed.yp;
-            this.theta = lerp(this.theta, this.theta + this.speed, 0.1);
-            this.y = this.amplitude * Math.sin(this.theta + this.phi);
-        }
-        // X = A * sin(wt + phi);
-        if (this.axis == "X") {
-            this.amplitude = data.amplitude.xp;
-            this.speed = data.speed.xp;
-            this.theta = lerp(this.theta, this.theta + this.speed, 0.1);
-            this.x = this.amplitude * Math.sin(this.theta + this.phi);
-        }
-    }
-}
 
 let xp; // Stores  X-anchor
 let yp; // Stores  Y-anchor
 let trail = []; // Stores object instances of TrailPoint class, which basically is history of wherever our point on the line went.
-
-/*
-    This class creates an object with x,y as coordinates and color as ..color.
-    It has a method = show, which has an optional 'other' argument, which should be another TrailPoint object.
-*/
-class TrailPoint {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-    }
-
-    show(other = null) {
-        // If no object is passed, create a point, basically.
-        // Otherwise create a line between this object and this other object.
-        if (other !== null) {
-            stroke(this.color);
-            strokeWeight(1);
-            line(this.x, this.y, other.x, other.y);
-        } else {
-            line(this.x, this.y, this.x, this.y);
-        }
-    }
-}
 
 var setup = () => {
     createCanvas(windowWidth, windowHeight); // Creating canvas
