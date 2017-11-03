@@ -1,7 +1,12 @@
 class Paddle {
   constructor(half) {
     this.half = half;
-    this.cx = width * 0.5;
+
+    if (this.half == "left") {
+      this.cx = width * 0.1;
+    } else {
+      this.cx = width * 0.9;
+    }
     this.cy = height * 0.5;
     this.w = 10;
     this.h = 50;
@@ -15,5 +20,9 @@ class Paddle {
     fill(this.color);
     rect(0, 0, this.w, this.h);
     pop();
+  }
+
+  update()  {
+
   }
 }
