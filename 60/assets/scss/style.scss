@@ -1,11 +1,34 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 canvas {
-	display: block;
+  display: block;
+}
+
+.description-container {
+  position: absolute;
+  background: black;
+  color: silver;
+  font-family: "Roboto";
+  padding: 1vw;
+  font-size: 1vw;
+  top: 2vh;
+  left: 2vw;
+  line-height: 1vw;
+
+  h1 {
+    margin: 0;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
 }

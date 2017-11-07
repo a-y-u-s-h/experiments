@@ -12,7 +12,7 @@ class Node {
   display(branch) {
     push();
     translate(this.x, this.y);
-    scale(map(branch, 1, 10, 1, 0.3))
+    scale(map(branch, 1, 10, 0.8, 0.1))
     if (data.tree.node.stroke.check) {
       stroke(data.tree.node.stroke.color);
     } else {

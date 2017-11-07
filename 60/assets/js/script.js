@@ -1,52 +1,45 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
+    background: "#FFFFFF",
+    max_clicks: 4,
+    counter: 0
   },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 30,
-      textSize: 16,
-      textColor: "#FFFFFF",
-      stroke: {
-        check: true,
-        color: "#000000"
-      },
-      fill: {
-        check: true,
-        color: "#000000"
-      }
-    },
-    branch: {
-      r: 100,
-      angle: {
-        left: 45,
-        right: 45
-      }
-    }
+  fractal: {
+    root: 600
   }
 };
 
-let tree;
+let root;
+let vicsek = [];
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
-  angleMode(DEGREES);
-
-  tree = new Tree(width * 0.7, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
-  }
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  root = new Box(0, 0, 0, data.fractal.root);
+  vicsek.push(root);
+  colorMode(HSB, 100);
 }
 
 function draw() {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+
+  rotateX(frameCount * 0.01);
+  rotateY(frameCount * 0.01);
+  if ( data.sketch.counter < data.sketch.max_clicks ) {
+  scale( map(data.sketch.max_clicks - data.sketch.counter, data.sketch.max_clicks, 0, 0.5, 1));
+    
+  }
+  for (var i = 0, upperLimit_i = vicsek.length; i < upperLimit_i; i += 1) {
+    vicsek[i].show();
+  }
+}
+
+function mousePressed() {
+  if (data.sketch.counter < data.sketch.max_clicks) {
+    let next = [];
+    vicsek.forEach(b => {
+      next.push(...b.generate());
+    });
+    vicsek = next;
+  }
+  data.sketch.counter++;
 }
