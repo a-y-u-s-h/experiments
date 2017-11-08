@@ -1,6 +1,7 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
+    background: "#FFFFFF",
+    gravity: 9.8
   },
   spring: {
     color: "#000000",
@@ -39,11 +40,11 @@ var createControlKit = () => {
       colorMode: "hex",
       label: "Background Color"
     })
-    .addGroup({
-      label: "Spring Controls"
-    })
     .addSubGroup({
       label: "Appearance Controls"
+    })
+    .addGroup({
+      label: "Spring Controls"
     })
     .addColor(data.spring, "color", {
       colorMode: "hex",
@@ -66,9 +67,6 @@ var createControlKit = () => {
     })
     .addGroup({
       label: "Bob Controls"
-    })
-    .addSubGroup({
-      label: "Appearance Controls"
     })
     .addCheckbox(data.bob.fill, "check", {
       label: "Want fill color?"
@@ -94,8 +92,13 @@ var createControlKit = () => {
       step: 1,
       dp: 3
     })
-    .addGroup({
+    .addSubGroup({
       label: "Behavior Controls"
+    })
+    .addNumberInput(data.sketch, "gravity", {
+      label: "Gravity",
+      step: 0.01,
+      dp: 3
     })
     .addNumberInput(data.bob, "mass", {
       label: "Mass of Bob",
@@ -104,7 +107,7 @@ var createControlKit = () => {
     })
     .addNumberInput(data.bob, "damping", {
       label: "Damping on Bob",
-      step: 0.001,
+      step: 0.01,
       dp: 3
     });
 };
@@ -243,7 +246,7 @@ class System {
     let k = data.spring.constant;
     let stretch = currentLength - data.spring.rest_length;
     let spring = direction.mult(-(k * stretch));
-    let gravity = new p5.Vector(0, 10);
+    let gravity = new p5.Vector(0, data.sketch.gravity);
 
     this.bob.applyForce(spring);
     this.bob.applyForce(gravity);
