@@ -166,6 +166,7 @@ class Bob {
     this.acceleration.mult(0);
     this.r = data.bob.radius;
     this.mass = data.bob.mass;
+    this.damping = data.bob.damping;
   }
 
   applyForce(force) {
@@ -246,7 +247,7 @@ class System {
     let k = data.spring.constant;
     let stretch = currentLength - data.spring.rest_length;
     let spring = direction.mult(-(k * stretch));
-    let gravity = new p5.Vector(0, data.sketch.gravity);
+    let gravity = new p5.Vector(0, data.sketch.gravity * data.bob.mass);
 
     this.bob.applyForce(spring);
     this.bob.applyForce(gravity);
