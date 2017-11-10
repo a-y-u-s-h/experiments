@@ -1,24 +1,75 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-canvas {
-	display: block;
+.hf_range {
+  -webkit-appearance: none;
+  margin: 0.79vw;
 }
 
-#controlKit .panel {
-    width: 23vw !important;
-    top: 54.5vh !important;
+/* WEBKIT BASED BROWSERS (CHROME, SAFARI, OPERA) */
+.hf_range::-webkit-slider-runnable-track {
+  height: 2px;
+  background: #393939;
+  border-radius: 2px;
 }
 
-#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label {
-    width: 60% !important;
+.hf_range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: #00bea2;
+  border-style: solid;
+  border-color: #535353;
+  border-radius: 50%;
+  border-width: 2px;
+  margin-top: -6px;
 }
 
-#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap {
-    width: 35% !important;
+.hf_range:focus {
+  outline: none;
+}
+
+/*
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+*/
+
+/* FIREFOX */
+.hf_range::-moz-range-track {
+  height: 2px;
+  background: #393939;
+  border-radius: 2px;
+}
+
+.hf_range::-moz-range-thumb {
+  height: 10px;
+  width: 10px;
+  background: #00bea2;
+  border-style: solid;
+  border-color: #535353;
+  border-radius: 50%;
+  border-right-width: 2px;
+  border-left-width: 2px;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}
+
+/*
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}*/
+
+.hf_range--small {
+  width: 84px;
+}
+
+.hf_range--medium {
+  width: 115px;
 }
