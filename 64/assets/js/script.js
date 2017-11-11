@@ -58,7 +58,7 @@ class Pattern {
         100,
         100
       );
-      ellipse(x, y, data.pattern.points.size, data.pattern.points.size);
+      ellipse(x, y, data.pattern.points.size*  i * 0.001, data.pattern.points.size * i * 0.001);
     }
     endShape();
     pop();
