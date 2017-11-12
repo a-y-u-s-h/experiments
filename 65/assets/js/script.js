@@ -1,23 +1,61 @@
-let data = {
-  sketch: {
-    background: "#248B21"
-  }
-};
+var cols, rows;
+var scl = 20;
+var w = 1400;
+var h = 1000;
 
-let ground;
-let left_paddle;
-let right_paddle;
+var flying = 0;
+
+var terrain = [];
+
+let song;
+let amp;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  left_paddle = new Paddle("left");
-  right_paddle = new Paddle("right");
-  ground = new Ground(width * 0.5, height * 0.5, left_paddle);
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  cols = w / scl;
+  rows = h/ scl;
+
+  for (var x = 0; x < cols; x++) {
+    terrain[x] = [];
+    for (var y = 0; y < rows; y++) {
+      terrain[x][y] = 0; //specify a default value for now
+    }
+  }
+  song = loadSound("/sounds/experiments/65.mp3", loaded);
+  colorMode(HSB, 100)
+ amp = new p5.Amplitude();
+}
+
+function loaded () {
+  song.loop();
 }
 
 function draw() {
-  background(data.sketch.background);
-  ground.show();
-  left_paddle.show();
-  right_paddle.show();
+  let vol = amp.getLevel();
+  console.log(vol);
+  flying -= 0.1;
+  var yoff = flying;
+  for (var y = 0; y < rows; y++) {
+    var xoff = 0;
+    for (var x = 0; x < cols; x++) {
+      terrain[x][y] = map(noise(xoff, yoff), 0, 1, -200, 100 + 100 * noise(xoff, yoff) * 10 * vol );
+      xoff += 0.2;
+    }
+    yoff += 0.2;
+  }
+
+
+  background(0);
+  translate(0, 50);
+  rotateX(-PI/3);
+  fill(50 + 50 * sin(frameCount * 0.01),100,100, 50);
+  translate(-w/2, -h/2);
+  for (var y = 0; y < rows-1; y++) {
+    beginShape(TRIANGLE_STRIP);
+    for (var x = 0; x < cols; x++) {
+      vertex(x*scl, y*scl, terrain[x][y]);
+      vertex(x*scl, (y+1)*scl, terrain[x][y+1]);
+    }
+    endShape();
+  }
 }

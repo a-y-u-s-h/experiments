@@ -12,7 +12,7 @@ class Node {
   display(branch) {
     push();
     translate(this.x, this.y);
-    scale(map(branch, 1, 10, 0.8, 0.1))
+    scale(map(branch, 1, 10, 0.4, 0.1))
     if (data.tree.node.stroke.check) {
       stroke(data.tree.node.stroke.color);
     } else {
@@ -92,7 +92,7 @@ class Node {
       this.left.visit();
     }
     this.display(1);
-    this.displaySequence(1);
+    // this.displaySequence(1);
     if (this.right !== null) {
       this.right.visit();
     }
