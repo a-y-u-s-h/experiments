@@ -17,7 +17,7 @@ let data = {
       three: 4,
       two: 10
     },
-    force_constant: 10,
+    force_constant: 10000,
     mass: 5,
     initial_position: {
       x: 0,
@@ -164,6 +164,7 @@ function draw() {
   if (ring && point) {
     ring.update();
     ring.display();
+    forces = [];
     ring.bodies.forEach(body => {
       forces.push(point.calculateForce(body));
     });
