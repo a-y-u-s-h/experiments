@@ -1,157 +1,177 @@
 let data = {
   sketch: {
-    background: "#000000",
-    frameRate: 60
+    background: "#FFFFFF",
+    constant: 10000
   },
-  snake: {
-    size: 10,
-    fill: "#53D921",
+  magnet: {
+    strength: 1,
+    height: 50,
+    width: 240
+  },
+  poles: {
+    north: {
+      strength: 1,
+      height: 50,
+      width: 120,
+      stroke: {
+        check: true,
+        color: "#000000",
+        weight: 3
+      },
+      fill: {
+        check: true,
+        color: "#69D2A0"
+      }
+    },
+    south: {
+      strength: 1,
+      height: 50,
+      width: 120,
+      stroke: {
+        check: true,
+        color: "#000000",
+        weight: 3
+      },
+      fill: {
+        check: true,
+        color: "#C66346"
+      }
+    }
+  },
+  arrow: {
+    number: 1000,
+    mass: 1,
+    size: 1,
     stroke: {
-      color: "#00550A",
+      check: true,
+      color: "#000000",
       weight: 1
+    },
+    fill: {
+      check: true,
+      color: "#000000"
     }
   },
-  food: {
-    n: 30,
-    types: [
-      {
-        color: "#DBB822",
-        probability_of_showing_up: 0.2,
-        score: 3
-      },
-      {
-        color: "#DB1BA6",
-        probability_of_showing_up: 0.5,
-        score: 2
-      },
-      {
-        color: "#258197",
-        probability_of_showing_up: 0.7,
-        score: 1
-      },
-      {
-        color: "#BD1A1A",
-        probability_of_showing_up: 0.4,
-        score: -2
-      }
-    ]
-  },
-  grid: {
-    color: "#0B150B"
+  attractor: {
+    number: 0,
+    mass: 10,
+    size: 10,
+    stroke: {
+      check: false,
+      color: "#000000",
+      weight: 3
+    },
+    fill: {
+      check: true,
+      color: "#DE3030"
+    }
   }
 };
 
-// Variable to store GUI
-var controlkit;
-
-// Function to create control GUI
-var createControlKit = () => {
-  controlkit = new ControlKit();
-  controlkit
-    .addPanel({
-      fixed: true,
-      align: "right",
-      label: "Game Settings"
-    })
-    .addColor(data.grid, "color", {
-      colorMode: "hex",
-      label: "Grid Color"
-    })
-    .addNumberInput(data.snake, "size", {
-      label: "Grid Size",
-      step: 1,
-      dp: 1
-    })
-    .addNumberInput(data.sketch, "frameRate", {
-      label: "Framerate",
-      step: 1,
-      dp: 1
-    })
-    .addSubGroup({
-      label: "Snake Settings"
-    })
-    .addColor(data.snake, "fill", {
-      colorMode: "hex",
-      label: "Fill Color"
-    })
-    .addColor(data.snake.stroke, "color", {
-      colorMode: "hex",
-      label: "Stroke Color"
-    })
-    .addNumberInput(data.snake.stroke, "weight", {
-      label: "Border Thickness",
-      step: 1,
-      dp: 1
-    });
-};
-
-createControlKit();
-
-let snake;
-let grid;
-let foods = [];
-
-function init_food(snake, grid) {
-  for (var i = 0, upperLimit_i = data.food.n; i < upperLimit_i; i += 1) {
-    foods.push(new Food(snake, grid));
-    foods[i].initialize();
-  }
-}
-
+let magnet;
+let arrows = [];
 function setup() {
-  createCanvas(windowWidth * 0.77, windowHeight);
-  grid = new Grid();
-  snake = new Snake();
-  background(color(data.sketch.background));
-  init_food(snake, grid);
+  createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  for (var i = 0, upperLimit_i = data.arrow.number; i < upperLimit_i; i += 1) {
+    arrows.push(new Arrow(randomGaussian(width * 0.5, width * 0.18), randomGaussian(height * 0.5, height * 0.18)));
+  }
+  magnet = new Magnet(width * 0.5, height * 0.5);
 }
 
-let angle = 0;
 function draw() {
-  frameRate(abs(data.sketch.frameRate));
-  background(0, 100);
-  let spacingX =
-    (width - Math.floor(width / data.snake.size) * data.snake.size) * 0.5;
-  let spacingY =
-    (height - Math.floor(height / data.snake.size) * data.snake.size) * 0.5;
-  translate(spacingX, spacingY);
-  grid.show();
-  snake.update();
-  snake.show();
-  for (var i = 0, upperLimit_i = foods.length; i < upperLimit_i; i += 1) {
-    if (foods[i]) {
-      foods[i].update();
-      foods[i].show();
-
-      if (foods[i].cx == snake.cx && foods[i].cy == snake.cy) {
-        snake.eats(foods[i]);
-        foods.splice(i, 1);
-        foods[i] = new Food(snake, grid);
-        foods[i].initialize();
-      }
+  background(255, 5);
+  arrows.forEach(a => {
+    a.clearForce();
+    a.attracted(magnet.north);
+    a.attracted(magnet.south);
+    a.update();
+    a.edges();
+    a.show();
+  });
+  magnet.show();
+  if ((frameCount * 1) % 60 == 0) {
+    for (
+      var i = 0, upperLimit_i = data.arrow.number * 0.1;
+      i < upperLimit_i;
+      i += 1
+    ) {
+      arrows.push(new Arrow(arrows[0].start.x, arrows[0].start.y));
+      arrows.splice(0, 1);
     }
   }
 }
 
-function keyPressed() {
-  if (mouseX < width) {
-    switch (keyCode) {
-      case UP_ARROW:
-        snake.dir(0, -1);
-        break;
-      case DOWN_ARROW:
-        snake.dir(0, 1);
-        break;
-      case LEFT_ARROW:
-        snake.dir(-1, 0);
-        break;
-      case RIGHT_ARROW:
-        snake.dir(1, 0);
-        break;
-    }
+class Magnet {
+  constructor(cx, cy) {
+    this.position = new p5.Vector(cx, cy);
+    this.strength = data.magnet.strength;
+    this.length = data.magnet.length;
+    this.height = data.magnet.height;
+    this.north = new Pole(
+      this.position.x - data.magnet.width * 0.25,
+      this.position.y,
+      this.strength,
+      "north"
+    );
+    this.south = new Pole(
+      this.position.x + data.magnet.width * 0.25,
+      this.position.y,
+      this.strength,
+      "south"
+    );
   }
+
+  show() {
+    push();
+    this.south.show();
+    this.north.show();
+    pop();
+  }
+
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth * 0.77, windowHeight);
+class Pole {
+  constructor(cx, cy, strength, type) {
+    this.position = new p5.Vector(cx, cy);
+    this.strength = strength;
+    this.type = type.toLowerCase();
+    this.size = data.poles[`${this.type}`].width;
+  }
+
+  show() {
+    push();
+    translate(this.position.x, this.position.y);
+
+    if (data.poles[`${this.type}`].stroke.check) {
+      stroke(data.poles[`${this.type}`].stroke.color);
+      strokeWeight(data.poles[`${this.type}`].stroke.weight);
+    } else {
+      noStroke();
+    }
+
+    if (data.poles[`${this.type}`].fill.check) {
+      fill(data.poles[`${this.type}`].fill.color);
+    } else {
+      noFill();
+    }
+
+    rect(
+      0,
+      0,
+      data.poles[`${this.type}`].width,
+      data.poles[`${this.type}`].height
+    );
+
+    push();
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    noStroke();
+    fill(0, 200);
+    text(`${this.type[0].toUpperCase()}`, 0, 0);
+    pop();
+    pop();
+  }
 }
