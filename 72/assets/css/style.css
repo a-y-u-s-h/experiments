@@ -1,11 +1,2 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
-}
-
-canvas {
-	display: block;
-}
+@import url("https://fonts.googleapis.com/css?family=Roboto");html,body{padding:0;margin:0;width:100%;height:100vh;overflow:hidden}#canvas{display:block;position:absolute;right:0}.instructions{position:absolute;top:2vh;left:1vw;background:#000;color:silver;z-index:1;font-size:0.9vw;padding:0.8vw;margin:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.instructions p{margin:0;padding:0.2vw;font-family:"Roboto"}
+/*# sourceMappingURL=style.css.map */
