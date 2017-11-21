@@ -23,12 +23,12 @@ canvas {
   top: 2vh;
   left: 2vw;
   line-height: 1vw;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   h1 {
     margin: 0;
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
   }
 }
