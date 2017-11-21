@@ -6,7 +6,8 @@ class Armature {
 
   show() {
     push();
-
+    translate(this.position.x, this.position.y);
+    this.rotate();
     if (data.dc.armature.stroke.check) {
       stroke(data.dc.armature.stroke.color);
       strokeWeight(data.dc.armature.stroke.weight);
@@ -21,8 +22,8 @@ class Armature {
     }
 
     ellipse(
-      this.position.x,
-      this.position.y,
+      0,
+      0,
       data.dc.armature.r.outer * 2,
       data.dc.armature.r.outer * 2
     );
@@ -37,12 +38,12 @@ class Armature {
       angle += 360 / data.dc.conductors
     ) {
       let x =
-        this.position.x +
+        0 +
         (data.dc.armature.r.inner + data.dc.armature.r.outer) *
           0.5 *
           cos(angle);
       let y =
-        this.position.y +
+        0 +
         (data.dc.armature.r.inner + data.dc.armature.r.outer) *
           0.5 *
           sin(angle);
@@ -61,11 +62,15 @@ class Armature {
     stroke(255);
     strokeWeight(1);
     ellipse(
-      this.position.x,
-      this.position.y,
+      0,
+      0,
       data.dc.armature.r.inner * 2,
       data.dc.armature.r.inner * 2
     );
     pop();
+  }
+
+    rotate() {
+    rotate(frameCount * data.dc.rotation_speed);
   }
 }
