@@ -4,6 +4,55 @@ class Armature {
     this.conductors = [];
   }
 
+  insertConductors() {
+    push();
+    translate(this.position.x, this.position.y);
+    this.rotate();
+    for (
+      var angle = 0, upperLimit_angle = 360;
+      angle < upperLimit_angle;
+      angle += 360 / data.dc.conductors
+    ) {
+      let x =
+        (data.dc.armature.r.inner + data.dc.armature.r.outer) *
+        0.55 *
+        cos(angle + 0.5 * (360 / data.dc.conductors));
+      let y =
+        (data.dc.armature.r.inner + data.dc.armature.r.outer) *
+        0.55 *
+        sin(angle + 0.5 * (360 / data.dc.conductors));
+
+      push();
+      translate(x, y);
+      let total = Math.floor(
+        (angle + frameCount * data.dc.rotation_speed + 95) % 360
+      );
+      rotate(angle + 270);
+      if (total <= 180) {
+        fill("#399988");
+      } else {
+        fill("#B93B3B");
+      }
+      ellipse(0, 0, 15, 15);
+      if (total <= 180) {
+        push();
+        noStroke();
+        fill(0);
+        text("✕", 0, 0);
+        pop();
+      } else {
+        push();
+        noStroke();
+        fill(0);
+        textSize(16);
+        text("•", 0, 0);
+        pop();
+      }
+      pop();
+    }
+    pop();
+  }
+
   show() {
     push();
     translate(this.position.x, this.position.y);
@@ -21,12 +70,7 @@ class Armature {
       noFill();
     }
 
-    ellipse(
-      0,
-      0,
-      data.dc.armature.r.outer * 2,
-      data.dc.armature.r.outer * 2
-    );
+    ellipse(0, 0, data.dc.armature.r.outer * 2, data.dc.armature.r.outer * 2);
 
     stroke(0);
     strokeCap(SQUARE);
@@ -61,16 +105,11 @@ class Armature {
     }
     stroke(255);
     strokeWeight(1);
-    ellipse(
-      0,
-      0,
-      data.dc.armature.r.inner * 2,
-      data.dc.armature.r.inner * 2
-    );
+    ellipse(0, 0, data.dc.armature.r.inner * 2, data.dc.armature.r.inner * 2);
     pop();
   }
 
-    rotate() {
+  rotate() {
     rotate(frameCount * data.dc.rotation_speed);
   }
 }

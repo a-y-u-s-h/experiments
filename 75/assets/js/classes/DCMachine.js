@@ -11,6 +11,8 @@ class DCMachine {
   show()  {
     this.cover.show();
     this.poles.show();
+    this.shaft.invisibleCircle();
+    this.armature.insertConductors();
     this.armature.show();
     this.commutator.show();
     this.shaft.show();

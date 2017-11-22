@@ -2,51 +2,106 @@ let data = {
   sketch: {
     background: "#FFFFFF"
   },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 100,
-      textSize: 40,
-      textColor: "#FFFFFF",
+  label: {
+    r: 500
+  },
+  dc: {
+    conductors: 20,
+    rotation_speed: 0.5,
+    commutator: {
+      r: {
+        inner: 40,
+        outer: 60
+      },
       stroke: {
         check: true,
-        color: "#000000"
+        color: "#000000",
+        weight: 1
+      },
+      fill: {
+        inner: {
+          check: true,
+          color: "#FFFFFF"
+        },
+        outer: {
+          check: true,
+          color: "#DEDEDE"
+        }
+      }
+    },
+    armature: {
+      r: {
+        inner: 90,
+        outer: 91
+      },
+      stroke: {
+        check: true,
+        color: "#000000",
+        weight: 1
+      },
+      fill: {
+        inner: {
+          check: true,
+          color: "#FFFFFF"
+        },
+        outer: {
+          check: true,
+          color: "#000000"
+        }
+      }
+    },
+    shaft: {
+      r: 10,
+      stroke: {
+        check: true,
+        color: "#000000",
+        weight: 1
       },
       fill: {
         check: true,
-        color: "#000000"
+        color: "#434343"
       }
     },
-    branch: {
-      r: 150,
-      angle: {
-        left: 45,
-        right: 45
+    cover: {
+      r: {
+        outer: 300,
+        inner: 250
+      },
+      stroke: {
+        check: true,
+        color: "#000000",
+        weight: 2
+      },
+      fill: {
+        check: true,
+        color: "#434343"
       }
     }
   }
 };
 
-let tree;
+
+let schematic;
+let label;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
+  let canvas = createCanvas(windowWidth, windowHeight);
+  canvas.parent("#container");
+  canvas.id("canvas");
+  background(0);
   angleMode(DEGREES);
+  rectMode(CENTER);
+  ellipseMode(CENTER);
+  textAlign(CENTER, CENTER);
 
-  tree = new Tree(width * 0.5, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
-  }
+  label = new Label(width * 0.5, windowHeight * 0.5);
+  schematic = new DCMachine(width * 0.5, windowHeight * 0.5);
 }
 
 function draw() {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+  // scale(0.7);
+  // translate(0, height * 0.2);
+  schematic.show();
+  label.show();
 }

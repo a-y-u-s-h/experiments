@@ -1,11 +1,2 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
-}
-
-canvas {
-	display: block;
-}
+html,body{padding:0;margin:0;width:100%;height:100vh;overflow:none}#container{overflow:hidden}#container #canvas{display:block;float:right}::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 .7vw rgba(0,0,0,0.5);background-color:#f5f5f5}::-webkit-scrollbar{width:.7vw;background-color:#f5f5f5}::-webkit-scrollbar-thumb{background-color:#111111}#controlKit .panel{width:22.3vw !important}#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label{width:50% !important}#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap{width:50% !important}
+/*# sourceMappingURL=style.css.map */

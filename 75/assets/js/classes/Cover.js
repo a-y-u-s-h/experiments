@@ -18,7 +18,7 @@ class Cover {
       noFill();
     }
     ellipse(this.position.x, this.position.y, data.dc.cover.r.outer * 2, data.dc.cover.r.outer * 2);
-    fill(255);
+    fill(220);
     noStroke();
     ellipse(this.position.x, this.position.y, data.dc.cover.r.inner * 2, data.dc.cover.r.inner * 2);
 
