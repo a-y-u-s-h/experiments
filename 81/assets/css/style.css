@@ -1,2 +1,13 @@
-html,body{padding:0;margin:0;width:100%;height:100vh;overflow:hidden}canvas{display:block}#controlKit .panel{width:23vw !important;top:54.5vh !important}#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label{width:60% !important}#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap{width:35% !important}
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; }
+
+#canvas {
+  display: block;
+  position: absolute;
+  right: 0; }
+
 /*# sourceMappingURL=style.css.map */

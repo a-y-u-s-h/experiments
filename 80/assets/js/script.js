@@ -49,7 +49,7 @@ function draw() {
       );
       var yMaxDifference = -data.sketch.noiseHeight / 2 * scale;
       var dy = map(noiseValue, 0, 1, -yMaxDifference, yMaxDifference);
-      rect(int(x), int(y + dy), data.sketch.barWidth, height); // int() makes the edges more sharp
+      rect(int(x), int(y + dy), data.sketch.barWidth, height);
     }
   }
 }
