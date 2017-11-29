@@ -133,22 +133,22 @@ class Thing {
     push();
     textAlign(CENTER, TOP);
     text(
-      `A : (${Math.floor(this.A.x)}, ${Math.floor(this.A.y)})`,
+      `A : (${Math.floor(this.A.x)}, ${-Math.floor(this.A.y)})`,
       this.A.x + 10,
       this.A.y + 10
     );
     text(
-      `B : (${Math.floor(this.B.x)}, ${Math.floor(this.B.y)})`,
+      `B : (${Math.floor(this.B.x)}, ${-Math.floor(this.B.y)})`,
       this.B.x + 10,
       this.B.y + 10
     );
     text(
-      `C : (${Math.floor(this.C.x)}, ${Math.floor(this.C.y)})`,
+      `C : (${Math.floor(this.C.x)}, ${-Math.floor(this.C.y)})`,
       this.C.x + 10,
       this.C.y + 10
     );
     text(
-      `G : (${Math.floor(midpointX)}, ${Math.floor(midpointY)})`,
+      `G : (${Math.floor(midpointX)}, ${-Math.floor(midpointY)})`,
       midpointX + 10,
       midpointY + 10
     );
