@@ -1,157 +1,93 @@
 let data = {
   sketch: {
-    background: "#000000",
-    frameRate: 60
-  },
-  snake: {
-    size: 10,
-    fill: "#53D921",
-    stroke: {
-      color: "#00550A",
-      weight: 1
-    }
-  },
-  food: {
-    n: 30,
-    types: [
-      {
-        color: "#DBB822",
-        probability_of_showing_up: 0.2,
-        score: 3
-      },
-      {
-        color: "#DB1BA6",
-        probability_of_showing_up: 0.5,
-        score: 2
-      },
-      {
-        color: "#258197",
-        probability_of_showing_up: 0.7,
-        score: 1
-      },
-      {
-        color: "#BD1A1A",
-        probability_of_showing_up: 0.4,
-        score: -2
-      }
-    ]
-  },
-  grid: {
-    color: "#0B150B"
+    background: "#FFFFFF"
   }
 };
 
-// Variable to store GUI
-var controlkit;
-
-// Function to create control GUI
-var createControlKit = () => {
-  controlkit = new ControlKit();
-  controlkit
-    .addPanel({
-      fixed: true,
-      align: "right",
-      label: "Game Settings"
-    })
-    .addColor(data.grid, "color", {
-      colorMode: "hex",
-      label: "Grid Color"
-    })
-    .addNumberInput(data.snake, "size", {
-      label: "Grid Size",
-      step: 1,
-      dp: 1
-    })
-    .addNumberInput(data.sketch, "frameRate", {
-      label: "Framerate",
-      step: 1,
-      dp: 1
-    })
-    .addSubGroup({
-      label: "Snake Settings"
-    })
-    .addColor(data.snake, "fill", {
-      colorMode: "hex",
-      label: "Fill Color"
-    })
-    .addColor(data.snake.stroke, "color", {
-      colorMode: "hex",
-      label: "Stroke Color"
-    })
-    .addNumberInput(data.snake.stroke, "weight", {
-      label: "Border Thickness",
-      step: 1,
-      dp: 1
-    });
-};
-
-createControlKit();
-
-let snake;
-let grid;
-let foods = [];
-
-function init_food(snake, grid) {
-  for (var i = 0, upperLimit_i = data.food.n; i < upperLimit_i; i += 1) {
-    foods.push(new Food(snake, grid));
-    foods[i].initialize();
-  }
-}
+let vehicles = [];
 
 function setup() {
-  createCanvas(windowWidth * 0.77, windowHeight);
-  grid = new Grid();
-  snake = new Snake();
-  background(color(data.sketch.background));
-  init_food(snake, grid);
+  createCanvas(windowWidth, windowHeight);
+  for (var i = 0, upperLimit_i = 25; i < upperLimit_i; i += 1) {
+    vehicles[i] = new Vehicle(random(width), random(height), i);
+  }
+  colorMode(HSB, 100);
+  background(data.sketch.background);
+  noStroke();
 }
 
-let angle = 0;
 function draw() {
-  frameRate(abs(data.sketch.frameRate));
-  background(0, 100);
-  let spacingX =
-    (width - Math.floor(width / data.snake.size) * data.snake.size) * 0.5;
-  let spacingY =
-    (height - Math.floor(height / data.snake.size) * data.snake.size) * 0.5;
-  translate(spacingX, spacingY);
-  grid.show();
-  snake.update();
-  snake.show();
-  for (var i = 0, upperLimit_i = foods.length; i < upperLimit_i; i += 1) {
-    if (foods[i]) {
-      foods[i].update();
-      foods[i].show();
+  background(255, 5);
+  let mouse = new p5.Vector(mouseX, mouseY);
 
-      if (foods[i].cx == snake.cx && foods[i].cy == snake.cy) {
-        snake.eats(foods[i]);
-        foods.splice(i, 1);
-        foods[i] = new Food(snake, grid);
-        foods[i].initialize();
-      }
+  // Call the appropriate steering behaviors for our agents
+  for (var i = 0, upperLimit_i = vehicles.length; i < upperLimit_i; i += 1) {
+    if (i == 0) {
+      vehicles[i].seek(mouse);
+    }
+    if (i > 0) {
+      vehicles[i].seek(vehicles[i - 1].location);
     }
   }
+
+  vehicles.forEach(v => {
+    v.update();
+    v.display();
+  });
 }
 
-function keyPressed() {
-  if (mouseX < width) {
-    switch (keyCode) {
-      case UP_ARROW:
-        snake.dir(0, -1);
-        break;
-      case DOWN_ARROW:
-        snake.dir(0, 1);
-        break;
-      case LEFT_ARROW:
-        snake.dir(-1, 0);
-        break;
-      case RIGHT_ARROW:
-        snake.dir(1, 0);
-        break;
-    }
+class Vehicle {
+  constructor(x, y, i) {
+    this.location = new p5.Vector(x, y);
+    this.velocity = p5.Vector.random2D();
+    this.acceleration = new p5.Vector(0, 0);
+    this.i = i;
+    this.r = map(i, 0, 25, 20, 5);
+    this.maxSpeed = random(20, 21);
+    this.maxForce = 2;
   }
-}
 
-function windowResized() {
-  resizeCanvas(windowWidth * 0.77, windowHeight);
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  update() {
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxSpeed);
+    this.location.add(this.velocity);
+    // Reset acceleration to zero each cycle.
+    this.acceleration.mult(0);
+  }
+
+  seek(target) {
+    let desired = p5.Vector.sub(target, this.location);
+    let d = desired.mag();
+    desired.normalize();
+
+    if (d < 100) {
+      let m = map(d, 10, 100, 2, this.maxSpeed);
+      desired.mult(m);
+    } else {
+      // Normalize desired and scale to maximum speed
+      desired.mult(this.maxSpeed);
+    }
+
+    // Steering = Desired minus Velocity
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxForce);
+
+    this.applyForce(steer);
+  }
+
+  display() {
+    let theta = this.velocity.heading() + PI / 2;
+    push();
+    translate(this.location.x, this.location.y);
+    rotate(theta);
+    stroke(0);
+    stroke(1);
+    fill(map(this.i, 0, vehicles.length, 0, 100), 100, 100, 90);
+    triangle(this.r, this.r, -this.r, this.r, 0, -this.r * 2);
+    pop();
+  }
 }
