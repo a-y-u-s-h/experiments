@@ -45,6 +45,7 @@ class Body {
     } else {
       this.mass = data.rings.lambda;
     }
+    this.acceleration.mult(0);
   }
 
   applyForce(force) {
