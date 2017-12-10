@@ -19,16 +19,19 @@ function setup() {
   noStroke();
   ellipseMode(CENTER);
   rectMode(CENTER);
+  colorMode(HSB, 100);
 }
 
 function draw() {
   background(1);
   for (var i = bodies.length - 1, upperLimit_i = 0; i > upperLimit_i; i -= 1) {
     if (i % 2) {
-      fill(255);
+      fill(255, 200);
     } else {
       fill(0);
     }
+
+    fill(map(i, bodies.length -1, 0, 0, 100), 100, 100, 10);
     bodies[i].show();
     bodies[i].update();
   }
@@ -44,13 +47,13 @@ class Body {
 
   show() {
     push();
-    rect(this.x, this.y, this.r, this.r);
+    ellipse(this.x, this.y, this.r, this.r);
     pop();
   }
 
   update() {
     this.x =
-      100 * tan(frameCount * (data.bodies.n - this.i) * 0.0002) * sin(frameCount * (data.bodies.n - this.i) * 0.002) + width * 0.5;
+      100 * sin(frameCount * (data.bodies.n - this.i) * 0.0002) * sin(frameCount * (data.bodies.n - this.i) * 0.002) + width * 0.5;
     this.y =
       100 * cos(frameCount * (data.bodies.n - this.i) * 0.001) + height * 0.5;
   }
