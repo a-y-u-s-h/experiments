@@ -1,2 +1,23 @@
-html,body{padding:0;margin:0;width:100%;height:100vh;overflow:hidden}canvas{display:block}
+html, body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; }
+
+#canvas {
+  display: block;
+  position: absolute !important;
+  right: 0 !important; }
+
+#controlKit .panel {
+  width: 25vw !important;
+  height: 100vh !important; }
+
+#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label {
+  width: 50% !important; }
+
+#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap {
+  width: 50% !important; }
+
 /*# sourceMappingURL=style.css.map */
