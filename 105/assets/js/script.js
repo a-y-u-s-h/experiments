@@ -1,52 +1,37 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
-  },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 100,
-      textSize: 40,
-      textColor: "#FFFFFF",
-      stroke: {
-        check: true,
-        color: "#000000"
-      },
-      fill: {
-        check: true,
-        color: "#000000"
-      }
-    },
-    branch: {
-      r: 150,
-      angle: {
-        left: 45,
-        right: 45
-      }
-    }
+    background: "#0000000A"
   }
 };
 
-let tree;
+let nx = 0,
+  ny = 0,
+  nz = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
-  angleMode(DEGREES);
-
-  tree = new Tree(width * 0.5, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
-  }
+  background(255);
+  colorMode(HSB, 100);
 }
 
 function draw() {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+  drawStream();
+}
+
+function drawStream() {
+  let nx = 0;
+  for (let i = 0; i < width; i += 20) {
+    let ny = 0;
+    for (let j = 0; j < width; j += 20) {
+      let angle = map(noise(nx, ny, nz), 0, 1.0, 0, 4 * PI);
+      let x = 30 * cos(angle);
+      let y = 30 * sin(angle);
+      stroke((frameCount + 50 * noise(nx + ny + nz)) % 100, map(angle, 0, 4 * PI, 70, 100), 100);
+      line(i, j, i + x, j + y);
+      ny += 0.03;
+    }
+    nx += 0.02;
+  }
+  nz += 0.01;
 }
