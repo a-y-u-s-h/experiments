@@ -1,157 +1,102 @@
 let data = {
   sketch: {
-    background: "#000000",
-    frameRate: 60
-  },
-  snake: {
-    size: 10,
-    fill: "#53D921",
-    stroke: {
-      color: "#00550A",
-      weight: 1
-    }
-  },
-  food: {
-    n: 30,
-    types: [
-      {
-        color: "#DBB822",
-        probability_of_showing_up: 0.2,
-        score: 3
-      },
-      {
-        color: "#DB1BA6",
-        probability_of_showing_up: 0.5,
-        score: 2
-      },
-      {
-        color: "#258197",
-        probability_of_showing_up: 0.7,
-        score: 1
-      },
-      {
-        color: "#BD1A1A",
-        probability_of_showing_up: 0.4,
-        score: -2
-      }
-    ]
-  },
-  grid: {
-    color: "#0B150B"
+    background: "rgba(255, 207, 14, 1)"
   }
 };
 
-// Variable to store GUI
-var controlkit;
+let font;
+let poem = `
+break     do        instanceof  typeof
+case      else      new         var
+catch     finally   return      void
+continue  for       switch      while
+debugger  function  this        with
+default   if        throw
+delete    in        try
 
-// Function to create control GUI
-var createControlKit = () => {
-  controlkit = new ControlKit();
-  controlkit
-    .addPanel({
-      fixed: true,
-      align: "right",
-      label: "Game Settings"
-    })
-    .addColor(data.grid, "color", {
-      colorMode: "hex",
-      label: "Grid Color"
-    })
-    .addNumberInput(data.snake, "size", {
-      label: "Grid Size",
-      step: 1,
-      dp: 1
-    })
-    .addNumberInput(data.sketch, "frameRate", {
-      label: "Framerate",
-      step: 1,
-      dp: 1
-    })
-    .addSubGroup({
-      label: "Snake Settings"
-    })
-    .addColor(data.snake, "fill", {
-      colorMode: "hex",
-      label: "Fill Color"
-    })
-    .addColor(data.snake.stroke, "color", {
-      colorMode: "hex",
-      label: "Stroke Color"
-    })
-    .addNumberInput(data.snake.stroke, "weight", {
-      label: "Border Thickness",
-      step: 1,
-      dp: 1
-    });
-};
+abstract  export      interface  static
+boolean   extends     long       super
+byte      final       native     synchronized
+char      float       package    throws
+class     goto        private    transient
+const     implements  protected  volatile
+double    import      public 
+enum      int         short
+`;
 
-createControlKit();
+poem = poem
+  .replace(/\n/g, " ")
+  .split(/(\s+)/)
+  .filter(e => e.trim().length > 0);
 
-let snake;
-let grid;
-let foods = [];
+let words = [];
 
-function init_food(snake, grid) {
-  for (var i = 0, upperLimit_i = data.food.n; i < upperLimit_i; i += 1) {
-    foods.push(new Food(snake, grid));
-    foods[i].initialize();
-  }
+function preload() {
+  font = loadFont("assets/media/font/font.ttf");
 }
 
 function setup() {
-  createCanvas(windowWidth * 0.77, windowHeight);
-  grid = new Grid();
-  snake = new Snake();
-  background(color(data.sketch.background));
-  init_food(snake, grid);
-}
+  createCanvas(windowWidth, windowHeight);
 
-let angle = 0;
+  poem.forEach(keyword => {
+    words.push(new Word(random(width), random(height), keyword));
+  });
+}
 function draw() {
-  frameRate(abs(data.sketch.frameRate));
-  background(0, 100);
-  let spacingX =
-    (width - Math.floor(width / data.snake.size) * data.snake.size) * 0.5;
-  let spacingY =
-    (height - Math.floor(height / data.snake.size) * data.snake.size) * 0.5;
-  translate(spacingX, spacingY);
-  grid.show();
-  snake.update();
-  snake.show();
-  for (var i = 0, upperLimit_i = foods.length; i < upperLimit_i; i += 1) {
-    if (foods[i]) {
-      foods[i].update();
-      foods[i].show();
+  background(data.sketch.background);
 
-      if (foods[i].cx == snake.cx && foods[i].cy == snake.cy) {
-        snake.eats(foods[i]);
-        foods.splice(i, 1);
-        foods[i] = new Food(snake, grid);
-        foods[i].initialize();
-      }
-    }
-  }
+  push();
+  textSize(width * 0.4);
+  textFont(font);
+  textStyle(BOLD);
+  fill(0);
+  noStroke();
+  text("JS", width * 0.5, height * 0.9);
+  pop();
+
+  words.forEach(word => {
+    word.run();
+  });
 }
 
-function keyPressed() {
-  if (mouseX < width) {
-    switch (keyCode) {
-      case UP_ARROW:
-        snake.dir(0, -1);
-        break;
-      case DOWN_ARROW:
-        snake.dir(0, 1);
-        break;
-      case LEFT_ARROW:
-        snake.dir(-1, 0);
-        break;
-      case RIGHT_ARROW:
-        snake.dir(1, 0);
-        break;
-    }
+class Word {
+  constructor(cx, cy, text) {
+    this.position = new p5.Vector(cx, cy);
+    this.text = text;
+    this.random = random(8, 20);
+    this.velocity = new p5.Vector();
+    this.acceleration = new p5.Vector();
   }
-}
 
-function windowResized() {
-  resizeCanvas(windowWidth * 0.77, windowHeight);
+  run() {
+    this.show();
+    this.update();
+  }
+
+  show() {
+    push();
+    translate(this.position.x, this.position.y);
+    textSize(this.random);
+    textFont(font);
+    fill(0);
+    noStroke();
+    text(`${this.text}`, 0, 0);
+    pop();
+  }
+
+  update() {
+    this.velocity.x = random(-2, 2);
+    this.velocity.y = random(-2, 2);
+
+    if (this.position.x > width || this.position.x < 0) {
+      this.velocity.x *= 1;
+    }
+
+    if (this.position.y > height || this.position.y < 0) {
+      this.velocity.y *= -1;
+    }
+
+    this.position.add(this.velocity);
+    this.velocity.add(this.acceleration);
+  }
 }
