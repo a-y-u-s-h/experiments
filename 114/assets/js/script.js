@@ -48,8 +48,8 @@ class Vehicle {
     this.acceleration = new p5.Vector(0, 0);
     this.i = i;
     this.r = map(i, 0, 25, 1, 1.1);
-    this.maxSpeed = random(3, 10);
-    this.maxForce = 0.1;
+    this.maxSpeed = random(3, 2);
+    this.maxForce = 0.3;
     this.desired_separation = 100;
   }
 

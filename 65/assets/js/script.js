@@ -32,7 +32,6 @@ function loaded () {
 
 function draw() {
   let vol = amp.getLevel();
-  console.log(vol);
   flying -= 0.1;
   var yoff = flying;
   for (var y = 0; y < rows; y++) {
