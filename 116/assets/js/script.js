@@ -1,52 +1,36 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
-  },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 100,
-      textSize: 40,
-      textColor: "#FFFFFF",
-      stroke: {
-        check: true,
-        color: "#000000"
-      },
-      fill: {
-        check: true,
-        color: "#000000"
-      }
-    },
-    branch: {
-      r: 150,
-      angle: {
-        left: 45,
-        right: 45
-      }
-    }
+    background: "#DCDCDC"
   }
 };
 
-let tree;
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   angleMode(DEGREES);
-
-  tree = new Tree(width * 0.5, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
-  }
+  colorMode(HSL, 100);
 }
 
 function draw() {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+  ortho();
+  orbitControl();
+  ambientLight(50, 50, 50);
+  directionalLight(100, 100, 100, 0, 0, 1);
+  rotateY(radians(-45));
+  rotateX(45);
+  rotateY(-35);
+  rotateZ(radians(60));
+  for (var i = -13; i < 14; i += 1) {
+    let x = i * 15;
+    for (var k = -13; k < 14; k += 1) {
+      let y = 0;
+      let z = k * 15;
+      let d = dist(0, 0, 0, x, y, z) + 100 * sin(frameCount * 3);
+      push();
+      translate(x, y, z);
+      specularMaterial(50 + 50 * sin(frameCount + map(d, 0, 81, 0, 10)), 100, 40);
+      box(14, 300 + 300 * sin(frameCount * 4 + d * 2), 14);
+      pop();
+    }
+  }
 }
