@@ -1,52 +1,53 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
+    background: "#1D1D1D"
   },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 100,
-      textSize: 40,
-      textColor: "#FFFFFF",
-      stroke: {
-        check: true,
-        color: "#000000"
-      },
-      fill: {
-        check: true,
-        color: "#000000"
-      }
-    },
-    branch: {
-      r: 150,
-      angle: {
-        left: 45,
-        right: 45
-      }
-    }
+  torus: {
+    R: window.innerWidth * 0.15,
+    r: window.innerWidth * 0.08
   }
 };
 
-let tree;
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   angleMode(DEGREES);
-
-  tree = new Tree(width * 0.5, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
-  }
+  colorMode(HSL, 100);
 }
 
 function draw() {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+
+  ortho();
+  orbitControl();
+  // rotateX(radians(90));
+  // translate(0, 200, 0);
+  rotateZ(radians(90));
+  push();
+  let lx =
+    (data.torus.R * 0.5 + data.torus.r * cos(frameCount)) * cos(frameCount);
+  let ly =
+    (data.torus.R * 0.5 + data.torus.r * cos(frameCount)) * sin(frameCount);
+  let lz = 0;
+  pointLight(255, 255, 255, lx, ly, lz);
+  pop();
+  /**
+   * Coordinates of a point in torus are parametrically defined as : 
+   * x (theta, phi) = (R + r * cos(theta)) * cos(phi)
+   * y (theta, phi) = (R + r * cos(theta)) * sin(phi)
+   * x (theta, phi) = r * sin(theta)
+   */
+  for (var phi = -90; phi < 90; phi += 5) {
+    for (var theta = -180; theta < 180; theta += 10) {
+      let x = (data.torus.R + data.torus.r * cos(theta)) * cos(phi);
+      let y = (data.torus.R + data.torus.r * cos(theta)) * sin(phi);
+      let z = data.torus.r * sin(theta);
+      let d = dist(x, z, y, 0, 0, 0);
+      push();
+      rotateY(radians(360 * sin(frameCount + phi * 0.2)));
+      translate(x, y, z);
+      // sphere(map(d, 0, data.torus.R + data.torus.r, 5, 20));
+      sphere(15);
+      pop();
+    }
+  }
 }
