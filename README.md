@@ -202,3 +202,53 @@ I usually forget which experiment corresponds to what number all the time.
 [Exp. #99](http://a-y-u-s-h.github.io/experiments/99/) : Artificial Life : Flocking Agents #1
 
 [Exp. #100](http://a-y-u-s-h.github.io/experiments/100/) : Artificial Life : Path Following Bots 
+
+[Exp. #101](http://a-y-u-s-h.github.io/experiments/101/) : Arbitrary Sketch #3 : Hypnotic Iris
+
+[Exp. #102](http://a-y-u-s-h.github.io/experiments/102/): Collision Detection : Particles
+
+[Exp. #103](http://a-y-u-s-h.github.io/experiments/103/) : Koch Snowflake
+
+[Exp. #104](http://a-y-u-s-h.github.io/experiments/104/) : Extracting Simpler Oscillations
+
+[Exp. #105](http://a-y-u-s-h.github.io/experiments/105/) : Psychedelic Noisy Vectors
+
+[Exp. #106](http://a-y-u-s-h.github.io/experiments/106/) : JS Reserved Keywords (2017)
+
+[Exp. #107](http://a-y-u-s-h.github.io/experiments/107/) : Maze Generation #1 : RB
+
+[Exp. #108](http://a-y-u-s-h.github.io/experiments/108/) : Conway's Game of Life v1
+
+[Exp. #109](http://a-y-u-s-h.github.io/experiments/109/) : Metaballs / Isosurfaces v3
+
+[Exp. #110](http://a-y-u-s-h.github.io/experiments/110/) : Abstract Geometrical Art #7 (3D)
+
+[Exp. #111](http://a-y-u-s-h.github.io/experiments/111/) : Iterative Sketching #5 : Solar Flare
+
+[Exp. #112](http://a-y-u-s-h.github.io/experiments/112/) : DNA : Double Helix (3D)
+
+[Exp. #113](http://a-y-u-s-h.github.io/experiments/113/) : Abstract Geometrical Art #8 (3D)
+
+[Exp. #114](http://a-y-u-s-h.github.io/experiments/114/) : Artificial Life : Flocking Agents #2
+
+[Exp. #115](http://a-y-u-s-h.github.io/experiments/115/) : Artificial Life : Flocking Agents #3
+
+[Exp. #116](http://a-y-u-s-h.github.io/experiments/116/) : Abstract Geometrical Art #9 (3D)
+
+[Exp. #117](http://a-y-u-s-h.github.io/experiments/117/) : Abstract Geometrical Art #10 (3D)
+
+[Exp. #118](http://a-y-u-s-h.github.io/experiments/118/) : Abstract Geometrical Art #11 (3D)
+
+[Exp. #119](http://a-y-u-s-h.github.io/experiments/119/) : Electromagnetic Wave Propagation
+
+[Exp. #120](http://a-y-u-s-h.github.io/experiments/120/) : Abstract Geometrical Art #12 (3D)
+
+[Exp. #121](http://a-y-u-s-h.github.io/experiments/121/) : Abstract Geometrical Art #13 (3D)
+
+[Exp. #122](http://a-y-u-s-h.github.io/experiments/122/) : Abstract Geometrical Art #14 (3D)
+
+[Exp. #123](http://a-y-u-s-h.github.io/experiments/123/) : Abstract Geometrical Art #15 (3D)
+
+[Exp. #124](http://a-y-u-s-h.github.io/experiments/124/) : Color Spray!
+
+[Exp. #125](http://a-y-u-s-h.github.io/experiments/125/) : Color Explosion!
