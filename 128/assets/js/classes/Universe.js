@@ -30,7 +30,7 @@ class Universe {
     push();
     fill(255);
     for (let i = 0; i < this.cities.length; i += 1) {
-      this.cities[i].show();
+      this.cities[i].exist(i);
     }
     pop();
     this.connect();
@@ -42,7 +42,7 @@ class Universe {
     push();
     fill("#1C842C43");
     for (var i = 0; i < this.current_best.length; i += 1) {
-      this.current_best[i].show();
+      this.current_best[i].exist(i);
     }
     pop();
 
@@ -79,7 +79,7 @@ class Universe {
     fill(0);
     rect(width * 0.85, height * 0.5, width * 0.25, height * 0.65);
     fill(255);
-    textSize(15);
+    textSize(13);
     text(
       `
           Given a set of cities
@@ -92,18 +92,21 @@ class Universe {
           the starting point.
         `,
       width * 0.83,
-      height * 0.35
+      height * 0.32
     );
     text(
       `
 
-      
           This solutions is probably one of 
           the worst. This one demonstrates 
           how much time it'll take if we keep
           swapping two cities in the path at a time 
-          and recalculate the distance.
+          and recalculate the distance. 
 
+          
+          Red points denote current chosen start, 
+          and blue ones are current destination rest 
+          are intermediate cities.
 
           Best current estimate is shown 
           in the box below :
