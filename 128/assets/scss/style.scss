@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html, body {
 	padding: 0;
 	margin: 0;
@@ -8,4 +9,19 @@ html, body {
 
 canvas {
 	display: block;
+=======
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+>>>>>>> 069afb0aa11fe581fe2d3a8a58000f9440de15be
 }
