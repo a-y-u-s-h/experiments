@@ -1,157 +1,293 @@
-let data = {
-  sketch: {
-    background: "#000000",
-    frameRate: 60
-  },
-  snake: {
-    size: 10,
-    fill: "#53D921",
-    stroke: {
-      color: "#00550A",
-      weight: 1
-    }
-  },
-  food: {
-    n: 30,
-    types: [
-      {
-        color: "#DBB822",
-        probability_of_showing_up: 0.2,
-        score: 3
-      },
-      {
-        color: "#DB1BA6",
-        probability_of_showing_up: 0.5,
-        score: 2
-      },
-      {
-        color: "#258197",
-        probability_of_showing_up: 0.7,
-        score: 1
-      },
-      {
-        color: "#BD1A1A",
-        probability_of_showing_up: 0.4,
-        score: -2
-      }
-    ]
-  },
-  grid: {
-    color: "#0B150B"
-  }
-};
-
-// Variable to store GUI
-var controlkit;
-
-// Function to create control GUI
-var createControlKit = () => {
-  controlkit = new ControlKit();
-  controlkit
-    .addPanel({
-      fixed: true,
-      align: "right",
-      label: "Game Settings"
-    })
-    .addColor(data.grid, "color", {
-      colorMode: "hex",
-      label: "Grid Color"
-    })
-    .addNumberInput(data.snake, "size", {
-      label: "Grid Size",
-      step: 1,
-      dp: 1
-    })
-    .addNumberInput(data.sketch, "frameRate", {
-      label: "Framerate",
-      step: 1,
-      dp: 1
-    })
-    .addSubGroup({
-      label: "Snake Settings"
-    })
-    .addColor(data.snake, "fill", {
-      colorMode: "hex",
-      label: "Fill Color"
-    })
-    .addColor(data.snake.stroke, "color", {
-      colorMode: "hex",
-      label: "Stroke Color"
-    })
-    .addNumberInput(data.snake.stroke, "weight", {
-      label: "Border Thickness",
-      step: 1,
-      dp: 1
-    });
-};
-
-createControlKit();
-
-let snake;
-let grid;
-let foods = [];
-
-function init_food(snake, grid) {
-  for (var i = 0, upperLimit_i = data.food.n; i < upperLimit_i; i += 1) {
-    foods.push(new Food(snake, grid));
-    foods[i].initialize();
-  }
-}
+let digit;
 
 function setup() {
-  createCanvas(windowWidth * 0.77, windowHeight);
-  grid = new Grid();
-  snake = new Snake();
-  background(color(data.sketch.background));
-  init_food(snake, grid);
+  createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  noStroke();
+  digit = new Digit(width * 0.5, height * 0.5, 8);
 }
 
-let angle = 0;
 function draw() {
-  frameRate(abs(data.sketch.frameRate));
-  background(0, 100);
-  let spacingX =
-    (width - Math.floor(width / data.snake.size) * data.snake.size) * 0.5;
-  let spacingY =
-    (height - Math.floor(height / data.snake.size) * data.snake.size) * 0.5;
-  translate(spacingX, spacingY);
-  grid.show();
-  snake.update();
-  snake.show();
-  for (var i = 0, upperLimit_i = foods.length; i < upperLimit_i; i += 1) {
-    if (foods[i]) {
-      foods[i].update();
-      foods[i].show();
-
-      if (foods[i].cx == snake.cx && foods[i].cy == snake.cy) {
-        snake.eats(foods[i]);
-        foods.splice(i, 1);
-        foods[i] = new Food(snake, grid);
-        foods[i].initialize();
-      }
-    }
-  }
+  background(0);
+  digit.operate((frameCount / 30) % 16);
 }
 
-function keyPressed() {
-  if (mouseX < width) {
-    switch (keyCode) {
-      case UP_ARROW:
-        snake.dir(0, -1);
+class Clock {
+  constructor() {}
+}
+
+class Digit {
+  constructor(x, y, value) {
+    this.position = new p5.Vector(x, y);
+    this.value = value % 9;
+    this.magnify = 5;
+    this.width = 50;
+    this.height = 100;
+    this.segment_width = 43;
+    this.segment_height = 5;
+    this.on = {
+      a: false,
+      b: false,
+      c: false,
+      d: false,
+      e: false,
+      f: false,
+      g: false
+    };
+  }
+
+  operate(value) {
+    this.update(value);
+    this.show();
+  }
+
+  show() {
+    push();
+    translate(this.position.x, this.position.y);
+    fill("#FF2E2E90");
+    scale(this.magnify);
+    strokeCap(CURVE);
+    textAlign(CENTER, CENTER);
+    // a
+    if (this.on.a) {
+      push();
+      translate(0, -this.height * 0.5);
+      push();
+      textSize(5);
+      text("a", 0, -this.height * 0.1);
+      pop();
+      rect(0, 0, this.segment_width, this.segment_height);
+
+      pop();
+    }
+
+    // d
+    if (this.on.d) {
+      push();
+      translate(0, this.height * 0.5);
+      push();
+      textSize(5);
+      text("d", 0, this.height * 0.1);
+      pop();
+      rect(0, 0, this.segment_width, this.segment_height);
+
+      pop();
+    }
+
+    // b
+    if (this.on.b) {
+      push();
+      translate(this.width * 0.5, -this.width * 0.5);
+      push();
+      textSize(5);
+      text("b", this.width * 0.15, 0);
+      pop();
+      rotate(-90);
+      rect(0, 0, this.segment_width, this.segment_height);
+      pop();
+    }
+
+    // f
+    if (this.on.f) {
+      push();
+      translate(-this.width * 0.5, -this.width * 0.5);
+      push();
+      textSize(5);
+      text("f", -this.width * 0.15, 0);
+      pop();
+      rotate(90);
+      rect(0, 0, this.segment_width, this.segment_height);
+      pop();
+    }
+
+    // e
+    if (this.on.e) {
+      push();
+      translate(-this.width * 0.5, this.width * 0.5);
+      push();
+      textSize(5);
+      text("e", -this.width * 0.15, 0);
+      pop();
+      rotate(90);
+      rect(0, 0, this.segment_width, this.segment_height);
+      pop();
+    }
+
+    // c
+    if (this.on.c) {
+      push();
+      translate(this.width * 0.5, this.width * 0.5);
+      push();
+      textSize(5);
+      text("c", this.width * 0.15, 0);
+      pop();
+      rotate(90);
+      rect(0, 0, this.segment_width, this.segment_height);
+      pop();
+    }
+
+    // g
+    if (this.on.g) {
+      push();
+      push();
+      textSize(5);
+      text("g", 0, -this.height * 0.1);
+      pop();
+      rect(0, 0, this.segment_width, this.segment_height);
+      pop();
+    }
+
+    pop();
+  }
+
+  update(value = this.value) {
+    this.value = value;
+    switch (this.value) {
+      case 0:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = false;
         break;
-      case DOWN_ARROW:
-        snake.dir(0, 1);
+      case 1:
+        this.on.a = false;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = false;
+        this.on.e = false;
+        this.on.f = false;
+        this.on.g = false;
         break;
-      case LEFT_ARROW:
-        snake.dir(-1, 0);
+      case 2:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = false;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = false;
+        this.on.g = true;
         break;
-      case RIGHT_ARROW:
-        snake.dir(1, 0);
+      case 3:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = false;
+        this.on.f = false;
+        this.on.g = true;
+        break;
+      case 4:
+        this.on.a = false;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = false;
+        this.on.e = false;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 5:
+        this.on.a = true;
+        this.on.b = false;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = false;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 6:
+        this.on.a = true;
+        this.on.b = false;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 7:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = false;
+        this.on.e = false;
+        this.on.f = false;
+        this.on.g = false;
+        break;
+      case 8:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 9:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = false;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 10:
+        this.on.a = true;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = false;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 11:
+        this.on.a = false;
+        this.on.b = false;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 12:
+        this.on.a = true;
+        this.on.b = false;
+        this.on.c = false;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = false;
+        break;
+      case 13:
+        this.on.a = false;
+        this.on.b = true;
+        this.on.c = true;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = false;
+        this.on.g = true;
+        break;
+      case 14:
+        this.on.a = true;
+        this.on.b = false;
+        this.on.c = false;
+        this.on.d = true;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
+        break;
+      case 15:
+        this.on.a = true;
+        this.on.b = false;
+        this.on.c = false;
+        this.on.d = false;
+        this.on.e = true;
+        this.on.f = true;
+        this.on.g = true;
         break;
     }
   }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth * 0.77, windowHeight);
 }
