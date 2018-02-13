@@ -1,81 +1,75 @@
-var gl;
-var shaderProgram;
-var vertices;
-var x;
-let width;
-let height;
-initGL();
-createShaders();
-createVertices();
-draw();
+let stackoverflow;
 
-function initGL() {
-  let canvas = document.getElementById("canvas");
-  gl = canvas.getContext("webgl");
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(1, 1, 1, 1);
-}
-
-function createShaders() {
-
-  let vertex_shader_source = `
-
-  attribute vec4 coords;
-  attribute float pointSize;
-
-  void main (void) {
-    gl_Position = vec4(coords);
-    gl_PointSize = pointSize;
-  }
-  `;
-
-  let vertex_shader = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vertex_shader, vertex_shader_source);
-  gl.compileShader(vertex_shader);
-  let fragment_shader_source = `
-  precision mediump float;
-  uniform vec4 color;
-    void main (void) {
-      gl_FragColor = color;
-    }
-  `;
-
-  let fragment_shader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fragment_shader, fragment_shader_source);
-  gl.compileShader(fragment_shader);
-
-  shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertex_shader);
-  gl.attachShader(shaderProgram, fragment_shader);
-  gl.linkProgram(shaderProgram);
-  gl.useProgram(shaderProgram);
+function setup() {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  stackoverflow = new Stackoverflow(0, 100, 0);
 }
 
 function draw() {
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.POINTS, 0, 1);
+  background(220);
+  ortho();
+  rotateY(radians(frameCount * 0.5));
+  orbitControl();
+
+  stackoverflow.show();
 }
 
-function createVertices () {
+class Stackoverflow {
+  constructor(cx = 0, cy = 0, cz = 0) {
+    this.position = new p5.Vector(cx, cy, cz);
+    this.size = 200;
+    this.height = 100;
+    this.magnify = 1.5;
+  }
 
-  vertices = [
-  -0.9, -0.9, 0.0,
-  0.9, -0.9, 0.0,
-  0.0, 0.9, 0.0
-  ];
+  show() {
+    push();
+    translate(this.position.x, this.position.y, this.position.y);
+    scale(this.magnify);
+    rotateX(radians(1));
+    rotateY(radians(2 * cos(frameCount * 0.1)));
+    rotateZ(radians(-5));
+    
+    ambientLight(170, 170, 170);
+    pointLight(250, 250, 250, 100, 100, 0);
+    pointLight(50, 50, 50, -100, -100, 0);
 
-  var buffer = gl.createBuffer();
-  gl.bindbuffer(gl.ARRAY_BUFFER, buffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new float32Array(vertices), gl.STATIC_DRAW);
+    specularMaterial("#E6350A");
+    this.stack();
 
-  var coords = gl.getAttribLocation(shaderProgram, "coords");
-  var pointSize = gl.getAttribLocation(shaderProgram, "pointSize");
-  gl.vertexAttrib1f(pointSize, 10);
+    specularMaterial("#797373");
+    push();
+    translate(0, this.size * 0.5, 0);
+    rotateX(radians(90));
+    box(this.size, this.size, 10);
+    pop();
 
-  var color = gl.getUniformLocation(shaderProgram, "color");
-  gl.uniform4f(color, 0.2, 0.3, 0.1, 1);
+    push();
+    translate(this.size * 0.5, this.height * 0.5, 0);
+    rotateY(radians(90));
+    box(this.size, this.height * 1.1, 10);
+    pop();
+
+    push();
+    translate(-this.size * 0.5, this.height * 0.5, 0);
+    rotateY(radians(90));
+    box(this.size, this.height * 1.1, 10);
+    pop();
+
+    pop();
+  }
+
+  stack() {
+    push();
+    translate(0, this.height * 0.5, 0);
+    for (var i = 0; i < 6; i += 1) {
+      push();
+      translate(Math.exp(i * 0.94), -i * 50 + i * sin(frameCount * 0.1), i * 5);
+      rotateX(radians(90));
+      rotateY(radians(-i * 10));
+      box(this.size * 0.8, this.size * 0.8, 20);
+      pop();
+    }
+    pop();
+  }
 }
-
-
