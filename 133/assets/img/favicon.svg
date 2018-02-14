@@ -1,0 +1,10 @@
+<?xml version="1.0"?><svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+ <title>gray heart with red outline</title>
+ <metadata id="metadata3547">image/svg+xml</metadata>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer1">
+   <path fill="#ff5656" fill-rule="evenodd" stroke="#ff0000" stroke-width="12" stroke-linejoin="round" stroke-miterlimit="4" id="path2361" d="m211.619186,15.642044c-137.447105,-2.471161 -264.638546,212.481247 105.925735,435.340683c0.406281,-0.73114 1.968781,-0.73114 2.375031,0c382.517975,-230.048676 234.665131,-451.640152 92.625702,-434.390625c-55.372711,6.724487 -81.503326,37.456451 -93.813263,63.88797c-12.309845,-26.431519 -38.440552,-57.163483 -93.81308,-63.88797c-4.438782,-0.539276 -8.866302,-0.870193 -13.300125,-0.950058z"/>
+  </g>
+ </g>
+</svg>
