@@ -2,13 +2,13 @@ let stackoverflow;
 
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
-  stackoverflow = new Stackoverflow(0, 100, 0);
+  stackoverflow = new Stackoverflow(0, 75, 0);
 }
 
 function draw() {
   background(220);
   ortho();
-  rotateY(radians(frameCount * 0.5));
+  // rotateY(radians(frameCount * 0.5));
   orbitControl();
 
   stackoverflow.show();
@@ -29,7 +29,7 @@ class Stackoverflow {
     rotateX(radians(1));
     rotateY(radians(2 * cos(frameCount * 0.1)));
     rotateZ(radians(-5));
-    
+
     ambientLight(170, 170, 170);
     pointLight(250, 250, 250, 100, 100, 0);
     pointLight(50, 50, 50, -100, -100, 0);
@@ -61,12 +61,12 @@ class Stackoverflow {
 
   stack() {
     push();
-    translate(0, this.height * 0.5, 0);
-    for (var i = 0; i < 6; i += 1) {
+    translate(0, this.height * 0.3, 0);
+    for (var i = 0; i < 5; i += 1) {
       push();
-      translate(Math.exp(i * 0.94), -i * 50 + i * sin(frameCount * 0.1), i * 5);
+      translate(Math.exp(i * 1.1), -i * 50 + i * sin(frameCount * 0.1), i * 5);
       rotateX(radians(90));
-      rotateY(radians(-i * 10));
+      rotateY(radians(-i * 13));
       box(this.size * 0.8, this.size * 0.8, 20);
       pop();
     }
