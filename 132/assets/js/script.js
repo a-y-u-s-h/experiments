@@ -8,7 +8,7 @@ function setup() {
 function draw() {
   background(220);
   ortho();
-  // rotateY(radians(frameCount * 0.5));
+  rotateY(radians(frameCount * 0.5));
   orbitControl();
 
   stackoverflow.show();
