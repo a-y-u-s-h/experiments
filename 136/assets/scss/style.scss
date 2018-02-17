@@ -16,13 +16,15 @@ canvas {
 }
 
 .container {
-  position: absolute;
-  top: 5vh;
-  right: 2vw;
-  width: 31vw;
-  height: 90vh;
-  background-color: transparent;
-  z-index: 1;
+    position: absolute;
+    top: 14vh;
+    right: 2vw;
+    width: 25vw;
+    padding: 0 2vw;
+    height: 72vh;
+    background-color: transparent;
+    z-index: 1;
+    text-align: center;
 
   p {
     font-family: "Roboto", sans-serif;

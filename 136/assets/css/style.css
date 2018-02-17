@@ -14,12 +14,14 @@ canvas {
 
 .container {
   position: absolute;
-  top: 5vh;
+  top: 14vh;
   right: 2vw;
-  width: 31vw;
-  height: 90vh;
+  width: 25vw;
+  padding: 0 2vw;
+  height: 72vh;
   background-color: transparent;
-  z-index: 1; }
+  z-index: 1;
+  text-align: center; }
   .container p {
     font-family: "Roboto", sans-serif;
     font-size: 1.2vw;
