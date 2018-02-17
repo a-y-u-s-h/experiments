@@ -28,10 +28,19 @@ class Armature {
         (angle + frameCount * data.dc.rotation_speed + 95) % 360
       );
       rotate(angle + 270);
+      colorMode(HSB, 100);
       if (total <= 180) {
-        fill("#399988");
+        if (total < 90) {
+          fill(map(total, 0, 90, 50, 55), 100, 100);
+        } else {
+          fill(map(total, 90, 180, 55, 50), 100, 100);
+        }
       } else {
-        fill("#B93B3B");
+        if (total < 270) {
+          fill(map(total, 180, 270, 10, 0), 100, 100);
+        } else {
+          fill(map(total, 270, 360, 0, 10), 100, 100);
+        }
       }
       ellipse(0, 0, 15, 15);
       if (total <= 180) {

@@ -2,7 +2,7 @@ class Poles {
   constructor(cx, cy) {
     this.position = new p5.Vector(cx, cy);
     this.number = 2;
-    this.size = 240 / this.number;
+    this.size = (120);
   }
 
   show() {

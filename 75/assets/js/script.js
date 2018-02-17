@@ -85,7 +85,7 @@ let schematic;
 let label;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight * 3);
   canvas.parent("#container");
   canvas.id("canvas");
   background(0);
@@ -100,8 +100,10 @@ function setup() {
 
 function draw() {
   background(data.sketch.background);
-  // scale(0.7);
-  // translate(0, height * 0.2);
+  push();
+  scale(0.7);
+  translate(0, windowHeight * 0.2)
   schematic.show();
   label.show();
+  pop();
 }

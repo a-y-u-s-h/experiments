@@ -1,24 +1,43 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 canvas {
-	display: block;
+  display: block;
+  position: absolute;
+  top: 0;
 }
 
-#controlKit .panel {
-    width: 23vw !important;
-    top: 54.5vh !important;
-}
+.container {
+  position: absolute;
+  top: 5vh;
+  right: 2vw;
+  width: 31vw;
+  height: 90vh;
+  background-color: transparent;
+  z-index: 1;
 
-#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .label {
-    width: 60% !important;
-}
+  p {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.2vw;
+    line-height: 3vh;
+  }
 
-#controlKit .panel .group-list .group .sub-group-list .sub-group .wrap .wrap {
-    width: 35% !important;
+  h2 {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 3vh auto;
+    width: fit-content;
+    font-size: 2vw;
+    font-family: "Roboto", sans-serif;
+    font-weight: 200;
+  }
 }

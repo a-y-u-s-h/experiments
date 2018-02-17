@@ -2,63 +2,51 @@ let data = {
   sketch: {
     background: "#FFFFFF"
   },
-  arcs: {
-    number: 20,
-    base_size: 150,
-    speed_factor: 0.2
+  tree: {
+    n : 14,
+    root: {
+      x: window.innerWidth * 0.5,
+      y: window.innerHeight * 0.5
+    },
+    node: {
+      size: 100,
+      textSize: 40,
+      textColor: "#FFFFFF",
+      stroke: {
+        check: true,
+        color: "#000000"
+      },
+      fill: {
+        check: true,
+        color: "#000000"
+      }
+    },
+    branch: {
+      r: 150,
+      angle: {
+        left: 45,
+        right: 45
+      }
+    }
   }
 };
 
-let waves = [];
+let tree;
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
-  canvas.id("canvas");
-  angleMode(DEGREES);
+  createCanvas(windowWidth, windowHeight);
   ellipseMode(CENTER);
-  colorMode(HSB, 100);
+  rectMode(CENTER);
+  angleMode(DEGREES);
 
-  noStroke();
-
-  for (var i = 0, upperLimit_i = data.arcs.number; i < upperLimit_i; i += 1) {
-    waves.push(new Arc(width * 0.5, height, i));
+  tree = new Tree(width * 0.5, height * 0.1);
+  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
+    tree.put(round(random(0, 100)));
   }
 }
 
 function draw() {
-  background(map(mouseX + mouseY, 0, width + height, 0, 100), 100, 100, 50);
-
-  for (var i = waves.length - 1, upperLimit_i = 0; i > upperLimit_i; i -= 1) {
-    fill(50 + 50 * sin(frameCount * 0.01 * i + i * 10), 100, 100, 10);
-    stroke(50 + 50 * sin(frameCount * 0.01 * i + i * 10), 100, 100, 30);
-    strokeWeight(2);
-    waves[i].show();
-  }
-}
-
-class Arc {
-  constructor(cx, cy, i = 0) {
-    this.origin = new p5.Vector(cx, cy);
-    this.i = i;
-  }
-
-  show() {
-    push();
-    translate(this.origin.x, this.origin.y);
-    arc(
-      0,
-      0,
-      data.arcs.base_size * (1 + this.i),
-      data.arcs.base_size * (1 + this.i),
-      180,
-      -90 +
-        89 *
-          sin(
-            frameCount * data.arcs.speed_factor * (data.arcs.number - this.i) +
-              this.i * 2
-          ),
-      PIE
-    );
-    pop();
-  }
+  background(data.sketch.background);
+  tree.connect();
+  tree.traverse();
 }
