@@ -1,81 +1,95 @@
-var gl;
-var shaderProgram;
-var vertices;
-var x;
-let width;
-let height;
-initGL();
-createShaders();
-createVertices();
-draw();
-
-function initGL() {
-  let canvas = document.getElementById("canvas");
-  gl = canvas.getContext("webgl");
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(1, 1, 1, 1);
-}
-
-function createShaders() {
-
-  let vertex_shader_source = `
-
-  attribute vec4 coords;
-  attribute float pointSize;
-
-  void main (void) {
-    gl_Position = vec4(coords);
-    gl_PointSize = pointSize;
+let data = {
+  sketch: {
+    background: "#000000"
+  },
+  structure: {
+    rings: 50
+  },
+  ring: {
+    n: 10,
+    r: 15
+  },
+  atoms: {
+    size: 1
   }
-  `;
+};
 
-  let vertex_shader = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vertex_shader, vertex_shader_source);
-  gl.compileShader(vertex_shader);
-  let fragment_shader_source = `
-  precision mediump float;
-  uniform vec4 color;
-    void main (void) {
-      gl_FragColor = color;
+let atoms = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  angleMode(DEGREES);
+  colorMode(HSB, 100);
+
+  for (var j = 0; j < data.structure.rings; j += 1) {
+    let r = data.ring.r * (j + 1);
+    atoms[j] = [];
+    for (var i = 0; i < data.ring.n; i += 1) {
+      let x = r * cos(frameCount + i * (360 / data.ring.n));
+      let y = r * sin(frameCount + i * (360 / data.ring.n));
+      let z = 100;
+      atoms[j].push(new Atom(x, y, z));
     }
-  `;
-
-  let fragment_shader = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fragment_shader, fragment_shader_source);
-  gl.compileShader(fragment_shader);
-
-  shaderProgram = gl.createProgram();
-  gl.attachShader(shaderProgram, vertex_shader);
-  gl.attachShader(shaderProgram, fragment_shader);
-  gl.linkProgram(shaderProgram);
-  gl.useProgram(shaderProgram);
+  }
 }
 
 function draw() {
-  gl.clear(gl.COLOR_BUFFER_BIT);
-  gl.drawArrays(gl.POINTS, 0, 1);
+  background(data.sketch.background);
+  // ortho();
+  orbitControl();
+  camera(0, 0, 100);
+  rotateX(90);
+  // rotateZ(-15);
+  rotateY(radians(-15) );
+  for (var i = atoms.length - 1; i >= 0; i -= 1) {
+    push();
+    rotateZ(frameCount * 0.01 + Math.log((i + 1) * 0.1));
+    fill(
+      map(i, atoms.length - 1, 0, 0, abs(50 * (1 + 0.5 * sin(frameCount * 2 + i * (360 / data.structure.rings))))),
+      100,
+      100,
+      60
+    );
+    beginShape();
+    for (var j = 0; j < atoms[i].length; j += 1) {
+      vertex(
+        atoms[i][j].position.x,
+        atoms[i][j].position.y,
+        atoms[i][j].position.z
+      );
+    }
+    endShape(CLOSE);
+    pop();
+  }
+  ambientLight(0, 0, 0);
+  pointLight(0, 0, 100, 300 * sin(frameCount), 0, 300);
+  specularMaterial(255, 255, 255);
+  for (var i = atoms.length - 1; i >= 0; i -= 1) {
+    push();
+    rotateZ(frameCount * 0.01 + Math.log((i + 1) * 0.1));
+    for (var j = 0; j < atoms[i].length; j += 1) {
+      atoms[i][j].show(i);
+    }
+    pop();
+  }
 }
 
-function createVertices () {
+class Atom {
+  constructor(x = 0, y = 0, z = 0) {
+    this.position = new p5.Vector(x, y, z);
+    this.original = new p5.Vector(x, y, z);
+  }
 
-  vertices = [
-  -0.9, -0.9, 0.0,
-  0.9, -0.9, 0.0,
-  0.0, 0.9, 0.0
-  ];
+  show(i) {
+    this.update(i);
+    push();
+    translate(this.position.x, this.position.y, this.position.z);
+    sphere(data.atoms.size, 60);
+    pop();
+  }
 
-  var buffer = gl.createBuffer();
-  gl.bindbuffer(gl.ARRAY_BUFFER, buffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new float32Array(vertices), gl.STATIC_DRAW);
-
-  var coords = gl.getAttribLocation(shaderProgram, "coords");
-  var pointSize = gl.getAttribLocation(shaderProgram, "pointSize");
-  gl.vertexAttrib1f(pointSize, 10);
-
-  var color = gl.getUniformLocation(shaderProgram, "color");
-  gl.uniform4f(color, 0.2, 0.3, 0.1, 1);
+  update(i) {
+    this.position.z =
+      this.original.z * sin(frameCount * 4 + i * (360 / data.structure.rings));
+  }
 }
-
-
