@@ -4,17 +4,18 @@ class Rocket {
     this.velocity = new p5.Vector();
     this.acceleration = new p5.Vector();
     if (dna) {
-      this.dna = new DNA();
+      this.dna = dna;
     } else {
       this.dna = new DNA();
     }
     this.count = 0;
     this.fitness = 0;
     this.completed = false;
+    this.crashed = false;
   }
 
-  run() {
-    this.update();
+  run(destination, b) {
+    this.update(destination, b);
     this.show();
   }
 
@@ -22,38 +23,71 @@ class Rocket {
     this.acceleration.add(force);
   }
 
-  calcFitness(target) {
-    let d = dist(this.position.x, this.position.y, target.x, target.y);
+  calcFitness(destination) {
+    let d = dist(
+      this.position.x,
+      this.position.y,
+      destination.x,
+      destination.y
+    );
     this.fitness = map(d, 0, (width + height) * 0.5, (width + height) * 0.5, 0);
+
+    if (this.completed) {
+      this.fitness *= 10;
+    }
+
+    if (this.crashed) {
+      this.fitness /= 10;
+    }
   }
 
-  update() {
-    let d = dist(this.position.x, this.position.y, target.x, target.y);
+  handleCrash(b) {
+    this.crashed = b.contains(this.position);
+
+    // Rocket has hit left or right of window
+    if (this.position.x > width || this.position.x < 0) {
+      this.crashed = true;
+    }
+    // Rocket has hit top or bottom of window
+    if (this.position.y > height || this.position.y < 0) {
+      this.crashed = true;
+    }
+  }
+
+  handleCompleted(destination) {
+    let d = dist(
+      this.position.x,
+      this.position.y,
+      destination.x,
+      destination.y
+    );
     if (d < 10) {
       this.completed = true;
+      this.position = destination.copy();
     }
+  }
 
-
-    this.count++;
-    if (this.count > data.rocket.lifespan - 1) {
-      this.count = 0;
-    }
+  update(destination, b) {
+    this.handleCompleted(destination);
+    this.handleCrash(b);
 
     this.edges();
-    if (!this.completed) {
+    this.applyForce(this.dna.genes[frameCount % this.dna.genes.length]);
+    if (!this.completed && !this.crashed) {
       this.applyForce(this.dna.genes[this.count]);
       this.velocity.add(this.acceleration);
       this.velocity.limit(10);
       this.position.add(this.velocity);
       this.acceleration.mult(0);
-    } else {
-      this.position = target.copy();
+    } else if (this.completed) {
+      this.position = destination.copy();
     }
   }
 
   show() {
     push();
     fill(0);
+    noStroke();
     translate(this.position.x, this.position.y);
     rotate(degrees(this.velocity.heading()) - 90);
     triangle(

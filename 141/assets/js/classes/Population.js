@@ -6,16 +6,29 @@ class Population {
     this.init();
     this.mating_pool = [];
     this.generation = 1;
+    this.reached = 0;
+    this.count = 0;
+    this.max_reach = 0;
   }
 
   stat() {
     push();
     noStroke();
     fill(0);
-    translate(width * 0.9, height * 0.1);
-    textSize(18);
+    // Generations
+    push();
+    translate(width * 0.85, height * 0.1);
+    textSize(width * 0.010);
     textAlign(CENTER, CENTER);
     text(`Generation : ${this.generation}`, 0, 0);
+    pop();
+    // Reached
+    push();
+    translate(width * 0.15, height * 0.1);
+    textSize(width * 0.010);
+    textAlign(CENTER, CENTER);
+    text(`Current Best : ${this.max_reach} out of 800`, 0, 0);
+    pop();
     pop();
   }
 
@@ -26,24 +39,24 @@ class Population {
     this.size = this.rockets.length;
   }
 
-  evaluate() {
+  evaluate(destination) {
     let maxfit = 0;
 
     this.rockets.forEach(rocket => {
-      rocket.calcFitness(target);
+      rocket.calcFitness(destination);
       if (rocket.fitness > maxfit) {
         maxfit = rocket.fitness;
       }
     });
 
     this.rockets.forEach(rocket => {
-      rocket.fitness = map(rocket.fitness, 0, maxfit, 0, 1);
+      rocket.fitness /= maxfit;
     });
 
     this.mating_pool = [];
     this.rockets.forEach(rocket => {
       let n = rocket.fitness * 100;
-      rocket.fitness = map(rocket.fitness, 0, maxfit, 0, 1);
+      rocket.fitness /= maxfit;
       for (var i = 0; i < n; i += 1) {
         this.mating_pool[i] = rocket;
       }
@@ -53,31 +66,47 @@ class Population {
   selection() {
     let new_rockets = [];
 
-    for (var i = 0; i < this.rockets; i += 1) {
+    for (var i = 0; i < this.rockets.length; i += 1) {
       let parent_A = random(this.mating_pool).dna;
       let parent_B = random(this.mating_pool).dna;
       let kid = parent_A.crossover(parent_B);
+      kid.mutation();
       new_rockets[i] = new Rocket(this.center.x, this.center.y, kid);
     }
 
     this.rockets = new_rockets;
   }
 
-  run() {
-    this.stat();
-    this.evaluate();
-    if (frameCount % data.rocket.lifespan == 0) {
-      this.generation++;
-      this.selection();
-    }
-    if (this.rockets.length > 0) {
-      if (this.rockets.length > data.population.rockets) {
-        this.rockets.splice(0, 11);
-      }
+  calcMaxReach() {
+    let count = 0;
+    if (count < 1) {
       this.rockets.forEach(rocket => {
-        rocket.run();
+        if (rocket.completed) {
+          this.reached++;
+        }
       });
-      this.size = this.rockets.length;
+    count++;
     }
+    if (this.max_reach < this.reached) {
+      this.max_reach = this.reached;
+    }
+  }
+
+  run(destination, barrier) {
+    this.stat();
+
+    if (frameCount % data.rocket.lifespan == 0) {
+      this.evaluate(destination.position);
+      this.selection();
+      this.generation++;
+      this.reached = 0;
+    }
+
+    this.calcMaxReach();
+    this.rockets.forEach(rocket => {
+      rocket.run(destination.position, barrier);
+    });
+
+    this.size = this.rockets.length;
   }
 }

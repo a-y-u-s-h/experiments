@@ -1,29 +1,31 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
+    background: "#FFFFFF90"
   },
   population: {
-    rockets: 800
+    rockets: 600
   },
   rocket: {
     lifespan: 100,
-    size: 4
+    size: 4,
+    maxforce: 0.3,
   },
   target: {
     fill: {
       check: true,
-      color: "#111111"
+      color: "#000000"
     },
     stroke: {
-      check: true,
+      check: false,
       weight: 2,
-      color: "#000000"
+      color: "#00E4FF"
     }
   }
 };
 
 let population;
 let target;
+let barrier;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -32,27 +34,24 @@ function setup() {
   background(255);
   angleMode(DEGREES);
   colorMode(HSB, 100);
-  target = new p5.Vector(width * 0.5, height * 0.1);
-  population = new Population();
+  target = new Target(width * 0.5, height * 0.1);
+  population = new Population(width * 0.5, height * 0.95);
+  barrier = new Barrier(width * 0.5, height * 0.5, width * 0.2, height * 0.02);
 }
 
 function draw() {
   background(data.sketch.background);
-  population.run();
-
-  push();
-  translate(target.x, target.y);
-  ellipse(0, 0, 20, 20);
+  barrier.show();
+  target.show();
+  population.run(target, barrier);
   pop();
 }
 
-// function mouseDragged() {
-//   // population = new Population(mouseX, mouseY);
-//   for ( var i = 0 ; i < 20; i += 1 ) {
-//     population.rockets.push(new Rocket(mouseX, mouseY));
-//   }
-// }
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+
+  target = new Target(width * 0.5, height * 0.1);
+  population = new Population(width * 0.5, height * 0.95);
+  barrier = new Barrier(width * 0.5, height * 0.5, width * 0.2, height * 0.02);
+  background(255);
 }
