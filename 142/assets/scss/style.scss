@@ -1,11 +1,14 @@
-html, body {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	overflow: hidden;
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
-canvas {
-	display: block;
+#defaultCanvas0 {
+  display: block;
+  position: absolute;
+  right: 0;
 }
