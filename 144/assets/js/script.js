@@ -1,23 +1,47 @@
 let data = {
   sketch: {
     background: "#248B21"
+  },
+  ball: {
+    outer: {
+      radius: 60,
+      fill: {
+        check: false,
+        color: "#000000"
+      },
+      stroke: {
+        check: true,
+        color: "#FFFFFF"
+      }
+    },
+    inner: {
+      radius: 55,
+      fill: {
+        check: true,
+        color: "#FFFFFF"
+      },
+      stroke: {
+        check: false,
+        color: "#000000"
+      }
+    }
   }
 };
 
-let ground;
-let left_paddle;
-let right_paddle;
+let game;
+
+function loaded () {
+  game.ball.loading = false;
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  left_paddle = new Paddle("left");
-  right_paddle = new Paddle("right");
-  ground = new Ground(width * 0.5, height * 0.5, left_paddle);
+  game = new System();
+  imageMode(CENTER);
 }
 
 function draw() {
   background(data.sketch.background);
-  ground.show();
-  left_paddle.show();
-  right_paddle.show();
+
+  game.run();
 }
