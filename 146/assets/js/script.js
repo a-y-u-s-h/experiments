@@ -34,6 +34,13 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    strokeWeight(40);
+    ellipseMode(CENTER);
+    rectMode(CENTER);
+    angleMode(DEGREES);
+    r = new CWave(width * 0.5, height * 0.5, 100, 0);
+    g = new CWave(width * 0.5, height * 0.5, 200, 120);
+    b = new CWave(width * 0.5, height * 0.5, 300, 270);
 }
 
 class CWave {
