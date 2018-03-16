@@ -291,3 +291,10 @@ class Digit {
     }
   }
 }
+
+function windowResized() {
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  noStroke();
+  digit = new Digit(width * 0.5, height * 0.5, 8);
+}
