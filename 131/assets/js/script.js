@@ -21,7 +21,11 @@ class Digit {
   constructor(x, y, value) {
     this.position = new p5.Vector(x, y);
     this.value = value % 9;
-    this.magnify = 5;
+    if (width > 500) {
+      this.magnify = 5;
+    } else {
+      this.magnify = 1;
+    }
     this.width = 50;
     this.height = 100;
     this.segment_width = 43;
@@ -297,5 +301,5 @@ function windowResized() {
   rectMode(CENTER);
   angleMode(DEGREES);
   noStroke();
-  digit = new Digit(width * 0.5, height * 0.5, 8);
+  digit = new Digit(windowWidth * 0.5, windowHeight * 0.5, 8);
 }
