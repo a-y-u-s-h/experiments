@@ -293,6 +293,7 @@ class Digit {
 }
 
 function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   angleMode(DEGREES);
   noStroke();
