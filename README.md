@@ -252,3 +252,49 @@ I usually forget which experiment corresponds to what number all the time.
 [Exp. #124](http://a-y-u-s-h.github.io/experiments/124/) : Color Spray!
 
 [Exp. #125](http://a-y-u-s-h.github.io/experiments/125/) : Color Explosion!
+
+[Exp. #126](http://a-y-u-s-h.github.io/experiments/126/) : Abstract Geometrical Art #16
+
+[Exp. #127](http://a-y-u-s-h.github.io/experiments/127/) : Immortal Snake Adventures
+
+[Exp. #128](http://a-y-u-s-h.github.io/experiments/128/) : Algorithm Visualizaiton : TSP - I
+
+[Exp. #129](http://a-y-u-s-h.github.io/experiments/129/) : Ripple
+
+[Exp. #130](http://a-y-u-s-h.github.io/experiments/130/) : Rainbow Rain
+
+[Exp. #131](http://a-y-u-s-h.github.io/experiments/131/) : 7 Segment Display
+
+[Exp. #132](http://a-y-u-s-h.github.io/experiments/132/) : Stack Overflow 3D
+
+[Exp. #133](http://a-y-u-s-h.github.io/experiments/133/) : Valentine's Day
+
+[Exp. #134](http://a-y-u-s-h.github.io/experiments/134/) : Spheres on a Sphere
+
+[Exp. #135](http://a-y-u-s-h.github.io/experiments/135/) : Pixel Tunnel
+
+[Exp. #136](http://a-y-u-s-h.github.io/experiments/136/) : Algoviz : A* Search
+
+[Exp. #137](http://a-y-u-s-h.github.io/experiments/137/) : Jelly Fish Prototype
+
+[Exp. #138](http://a-y-u-s-h.github.io/experiments/138/) : Celebratory Explosions
+
+[Exp. #139](http://a-y-u-s-h.github.io/experiments/139/) : Life Spreading Brush
+
+[Exp. #140](http://a-y-u-s-h.github.io/experiments/140/) : Artificial Life : Cockroaches
+
+[Exp. #141](http://a-y-u-s-h.github.io/experiments/141/) : Evolutionary Rockets
+
+[Exp. #142](http://a-y-u-s-h.github.io/experiments/142/) : Connected Spring Mass System
+
+[Exp. #143](http://a-y-u-s-h.github.io/experiments/143/) : Video Pixel Manipulation
+
+[Exp. #144](http://a-y-u-s-h.github.io/experiments/144/) : Football Field
+
+[Exp. #145](http://a-y-u-s-h.github.io/experiments/145/) : Video Pixel Manipulation 3D
+
+[Exp. #146](http://a-y-u-s-h.github.io/experiments/146/) : Unstable Colorful Spirits
+
+[Exp. #147](http://a-y-u-s-h.github.io/experiments/147/) : Squiggly Life*
+
+[Exp. #148](http://a-y-u-s-h.github.io/experiments/148/) : 3D Oscillations : Spheres on Sphere
