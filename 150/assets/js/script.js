@@ -37,25 +37,23 @@ function setup() {
 
   arrow = new Arrow();
 }
+let angle, windmag, temperature;
 
 function draw() {
   background(200);
-
   things.forEach(thing => {
     thing.run(wind);
   });
   arrow.show();
-
-  if ( (frameCount % (60 * 30))  ) {
-   //execute this line of code
-  }
+  text(`Wind Speed : ${10 * ((windmag * 1.609) % 10)} kmph`, width * 0.85, height * 0.1);
+  text(`Temperature : ${(temperature - 32)/ 1.8} °C`, width * 0.05, height * 0.1);
 }
 
+
 function gotWeather(weather) {
-  let angle = radians(Number(weather.current.wind_degree));
-  let windmag = Number(weather.current.wind_mph);
-  let temperatureDiv = createDiv(floor(weather.current.temp_f) + "&deg;");
-  let windDiv = createDiv("WIND " + windmag + " <small>MPH</small>");
+  angle = radians(Number(weather.current.wind_degree));
+  windmag = Number(weather.current.wind_mph);
+  temperature = floor(weather.current.temp_f);
   wind = p5.Vector.fromAngle(angle);
 }
 
@@ -105,8 +103,13 @@ class Thing {
     translate(this.position.x, this.position.y);
     stroke(0);
     fill(0);
-    scale(0.5)
-    rotate(wind.heading() + PI / 2 + random(radians(-2), radians(2)) + this.velocity.heading());
+    scale(0.5);
+    rotate(
+      wind.heading() +
+        PI / 2 +
+        random(radians(-2), radians(2)) +
+        this.velocity.heading()
+    );
     triangle(0, -15, -3, -5, 3, -5);
     pop();
   }
