@@ -1,52 +1,40 @@
 let data = {
   sketch: {
-    background: "#FFFFFF"
-  },
-  tree: {
-    n : 14,
-    root: {
-      x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.5
-    },
-    node: {
-      size: 100,
-      textSize: 40,
-      textColor: "#FFFFFF",
-      stroke: {
-        check: true,
-        color: "#000000"
-      },
-      fill: {
-        check: true,
-        color: "#000000"
-      }
-    },
-    branch: {
-      r: 150,
-      angle: {
-        left: 45,
-        right: 45
-      }
-    }
-  }
-};
-
-let tree;
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  ellipseMode(CENTER);
-  rectMode(CENTER);
-  angleMode(DEGREES);
-
-  tree = new Tree(width * 0.5, height * 0.1);
-  for (var i = 0, upperLimit_i = data.tree.n ; i < upperLimit_i; i += 1 ) {
-    tree.put(round(random(0, 100)));
+    background: "#000000"
   }
 }
 
-function draw() {
+function setup () {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+
+  angleMode(DEGREES);
+  noStroke();
+  colorMode(HSB, 100);
+}
+
+function draw () {
   background(data.sketch.background);
-  tree.connect();
-  tree.traverse();
+
+  rotateY(frameCount * 0.4)
+  rotateZ(frameCount * 0.4)
+  rotateX(frameCount * 0.4)
+  scale(2);
+
+  for (var x = -10, upperLimit_x = 10 ; x < upperLimit_x; x += 1 ) {
+    for (var y = -10, upperLimit_y = 10 ; y < upperLimit_y; y += 1 ) {
+      push();
+      let a = x * 10;
+      let b = y * 10;
+      let d = dist(x, y, 0, 0); 
+      let z = 100 * tan(frameCount + d * sin(frameCount) * 10)
+      translate(a, b, z);
+      fill(map(d, 0, 10 * Math.SQRT2, 0, 50 + 20 * sin(frameCount)), 100, 100)
+      rect(0, 0, 9, 9);
+      pop();
+    }
+  }
+}
+
+function windowResized () {
+  resizeCanvas(windowWidth, windowHeight)
 }
