@@ -9,7 +9,7 @@ function setup() {
   noStroke();
   colorMode(HSL, 100);
   angleMode(DEGREES);
-  r = 20;
+  r = 5;
   k = 200;
   w = r / Math.sqrt(2);
 
@@ -34,42 +34,55 @@ function setup() {
 
 function draw() {
   background(0);
-  if (active.length > 0) {
-    let randIndex = floor(random(active.length));
-    let pos = active[randIndex];
-    let found = false;
-    for (let i = 0; i < k; i += 1) {
-      let sample = p5.Vector.random2D();
-      sample.setMag(random(r, 2 * r));
-      sample.add(pos);
+  for (let m = 0; m < 30; m += 1) {
+    if (active.length > 0) {
+      let randIndex = floor(random(active.length));
+      let pos = active[randIndex];
+      let found = false;
+      for (let i = 0; i < k; i += 1) {
+        let sample = p5.Vector.random2D();
+        sample.setMag(random(r, 2 * r));
+        sample.add(pos);
 
-      let col = floor(sample.x / w);
-      let row = floor(sample.y / w);
+        let col = floor(sample.x / w);
+        let row = floor(sample.y / w);
 
-      if (col > -1 && row > -1 && col < cols && row < rows && !grid[col + row * cols]) {
-        let ok = true;
-        for (let a = -1; a <= 1; a += 1) {
-          for (let b = -1; b <= 1; b += 1) {
-            let index = (col + a) + (row + b) * cols;
-            let neighbor = grid[index];
-            if (neighbor) {
-              let d = dist(sample, neighbor);
-              if (d < r) {
-                ok = false;
+        if (
+          col > -1 &&
+          row > -1 &&
+          col < cols &&
+          row < rows &&
+          !grid[col + row * cols]
+        ) {
+          let ok = true;
+          for (let a = -1; a <= 1; a += 1) {
+            for (let b = -1; b <= 1; b += 1) {
+              let index = col + a + (row + b) * cols;
+              let neighbor = grid[index];
+              if (neighbor) {
+                let d = dist(sample, neighbor);
+                if (d < r) {
+                  ok = false;
+                }
               }
             }
           }
+          if (ok) {
+            found = true;
+            grid[col + row * cols] = sample;
+            active.push(sample);
+            break;
+          }
         }
-        if (ok) {
-          found = true;
-          grid[col + row * cols] = sample;
-          active.push(sample);
-          break;
+        if (!found) {
+          active.splice(randIndex, 1);
         }
       }
-      if (!found) {
-        active.splice(randIndex, 1);
-      }
+    }
+
+    if (active.length == 0) {
+      setup();
+      break;
     }
   }
 
@@ -90,10 +103,6 @@ function draw() {
     }
   }
   pop();
-
-  if ( active.length == 0 ) {
-    setup();
-  }
 }
 
 function windowResized() {
