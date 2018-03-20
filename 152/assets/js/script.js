@@ -9,8 +9,8 @@ function setup() {
   noStroke();
   colorMode(HSL, 100);
   angleMode(DEGREES);
-  r = 10;
-  k = 30;
+  r = 20;
+  k = 200;
   w = r / Math.sqrt(2);
 
   // Step 0
@@ -34,7 +34,6 @@ function setup() {
 
 function draw() {
   background(0);
-
   if (active.length > 0) {
     let randIndex = floor(random(active.length));
     let pos = active[randIndex];
@@ -47,11 +46,11 @@ function draw() {
       let col = floor(sample.x / w);
       let row = floor(sample.y / w);
 
-      if (col < cols && row < rows && !grid[col + row * cols]) {
+      if (col > -1 && row > -1 && col < cols && row < rows && !grid[col + row * cols]) {
         let ok = true;
         for (let a = -1; a <= 1; a += 1) {
           for (let b = -1; b <= 1; b += 1) {
-            let index = col + a + (row + b) * cols;
+            let index = (col + a) + (row + b) * cols;
             let neighbor = grid[index];
             if (neighbor) {
               let d = dist(sample, neighbor);
@@ -78,6 +77,7 @@ function draw() {
   fill(50 + 50 * sin(frameCount), 100, 40, 40);
   for (let i = 0; i < active.length; i += 1) {
     ellipse(active[i].x, active[i].y, 15, 15);
+    ellipse(width - active[i].x, height - active[i].y, 15, 15);
   }
   pop();
 
@@ -86,9 +86,14 @@ function draw() {
   for (let i = 0; i < grid.length; i += 1) {
     if (grid[i]) {
       ellipse(grid[i].x, grid[i].y, 3, 3);
+      ellipse(width - grid[i].x, height - grid[i].y, 3, 3);
     }
   }
   pop();
+
+  if ( active.length == 0 ) {
+    setup();
+  }
 }
 
 function windowResized() {
