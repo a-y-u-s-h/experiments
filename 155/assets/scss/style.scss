@@ -1,0 +1,17 @@
+html, body {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
+}
+
+canvas {
+	display: block;
+}
+
+.txt {
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
+}
